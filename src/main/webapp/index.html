@@ -17,7 +17,22 @@
     -->
     <link href="http://heroku.github.com/template-app-bootstrap/heroku.css" rel="stylesheet">
     <style type="text/css">
-      li { margin-bottom: 5px; }
+      li { margin-bottom: 10px; }
+      .screenshot {
+        margin-top: 10px;
+        display:block;
+      }
+      .screenshot img { 
+        padding: 0px;
+        line-height: 1;
+        border: 1px solid #ddd;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+        -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);
+        -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);
+      }
     </style>
     <!-- /// -->
     <script type="text/javascript">
@@ -59,14 +74,14 @@
             <li>Ensure the <a href="http://www.eclipse.org/m2e/">Maven Eclipse Plugin</a> is installed.</li>
             <li>Create an SSH key:
               <ol>
-                <li>Go to <code>Window</code> | <code>Preferences</code> | <code>General</code> | <code>Network Connections</code> | <code>SSH2</code></li>
+                <li>Go to <code>Window</code> <i class="icon-chevron-right"></i> <code>Preferences</code> <i class="icon-chevron-right"></i> <code>General</code> <i class="icon-chevron-right"></i> <code>Network Connections</code> <i class="icon-chevron-right"></i> <code>SSH2</code></li>
                 <li>Choose the <code>Key Management</code> tab</li>
                 <li>Click <code>Generate RSA Key...</code>
-                  <span class="thumbnail">
-                    INSERT SCREENSHOT SHOWING SSH2 PREFS WINDOW WITH SSH PUB KEY *
-                  </code>
+                  <span class="screenshot">
+                    <img src="https://s3.amazonaws.com/template-app-instructions-screenshots/eclipse/2-3-adding-ssh-key.png" alt="SSH Eclipse Preferences Window" /> 
+                  </span>
                 </li>
-                <li>Copy the generated public key in the text box and add it to your account</li>
+                <li>Copy the generated public key in the text box and <a href="https://api.heroku.com/account/ssh" class="btn btn-primary btn-mini">add it to your account</a></li>
                 <li>Click <code>Save Private Key...</code>, accepting the defaults</li>
                 <li>Click <code>Ok</code></li>
               </ol>
@@ -75,19 +90,19 @@
 
           <h2>Step 2. Clone the App</h2>
           <ol>
-            <li>Go to <code>Window</code> | <code>Open Perspective</code> | <code>Other</code></li>
+            <li>Go to <code>Window</code> <i class="icon-chevron-right"></i> <code>Open Perspective</code> <i class="icon-chevron-right"></i> <code>Other</code></li>
             <li>Choose <code>Git Repository Exploring</code> and click <code>Ok</code>
-              <span class="thumbnail">
-                INSERT SCREENSHOT OF OPEN PERSPECTIVE WINDOW *
-              </code>
+              <span class="screenshot">
+                <img src="https://s3.amazonaws.com/template-app-instructions-screenshots/eclipse/3-2-git-repo-perspective-selection.png" alt="Perspective Selector" /> 
+              </span>
             </li>
             <li>Click <code>Clone a Repository</code></li>
-            <li>Choose <code>URI</code> and click <code>Next</code>
-              <span class="thumbnail">
-                INSERT SCREENSHOT OF SELECT A REPOSITORY SOURCE WINDOW *
-              </code>
+            <li>Choose <code>URI</code> and click <code>Next</code></li>
+            <li>Enter <code>git@heroku.com:<script>document.write(appname());</script>.git</code> in the <code>URI</code> field.
+              <span class="screenshot">
+                <img src="https://s3.amazonaws.com/template-app-instructions-screenshots/eclipse/3-4-clone-git-repo.png" alt="Clone Git Repository" class="screenshot" /> 
+              </span>
             </li>
-            <li>Enter <code>git@heroku.com:<script>document.write(appname());</script>.git</code> in the <code>URI</code> field.</li>
             <li>Click <code>Next</code></li>
             <li>Click <code>Ok</code> to the fingerprint and known hosts prompts if they appear.</li>
             <li>Click <code>Finish</code></li>
@@ -95,7 +110,11 @@
 
           <h2>Step 3. Import the App</h2>
           <ol>
-            <li>Choose <code>File</code> | <code>Import...</code> | <code>Maven</code> | <code>Existing Maven Projects</code></li>
+            <li>Choose <code>File</code> <i class="icon-chevron-right"></i> <code>Import...</code> <i class="icon-chevron-right"></i> <code>Maven</code> <i class="icon-chevron-right"></i> <code>Existing Maven Projects</code>
+              <span class="screenshot">
+                <img src="https://s3.amazonaws.com/template-app-instructions-screenshots/eclipse/4-1-import-maven-project.png" alt="Import Maven Projects" />
+              </span>
+            </li>
             <li>Click <code>Next</code></li>
             <li>Set the <code>Root Directory</code> to $HOME\git, e.g. C:\Users\steve\git</li>
             <li>Check the box next to <code><script>document.write(appname());</script>/pom.xml</code></li>
@@ -114,17 +133,25 @@
 
           <h2>Step 5. Deploy to Heroku</h2>
           <ol>
-          <li>Right-click the project root and choose <code>Team</code> | <code>Share Project</code></li>
+          <li>Right-click the project root and choose <code>Team</code> <i class="icon-chevron-right"></i> <code>Share Project</code></li>
           <li>Choose <code>Git</code></li>
-          <li>Check <code>Use or create repository</code> in the parent folder of project</li>
+          <li>Check <code>Use or create repository</code> in the parent folder of project
+            <span class="screenshot">
+              <img src="https://s3.amazonaws.com/template-app-instructions-screenshots/eclipse/6-3-share-project-config-git-repo.png" alt="Configure Git Repository" />
+            </span>
+          </li>
           <li>Click <code>Finish</code></li>
-          <li>Right-click the project root and choose <code>Team</code> | <code>Commit</code></li>
-          <li>Enter a commit message and click <code>Ok</code></li>
-          <li>Right-click the project root and choose <code>Team</code> | <code>Push to Upstream</code></li>
+          <li>Right-click the project root and choose <code>Team</code> <i class="icon-chevron-right"></i> <code>Commit</code></li>
+          <li>Enter a commit message and click <code>Commit</code>
+            <span class="screenshot">
+              <img src="https://s3.amazonaws.com/template-app-instructions-screenshots/eclipse/6-5-commit.png" alt="Commit Changes" />
+            </span>
+          </li>
+          <li>Right-click the project root and choose <code>Team</code> <i class="icon-chevron-right"></i> <code>Push to Upstream</code></li>
           <li>Review the push results. At the bottom, a "... deployed to Heroku" message will appear.
-            <span class="thumbnail">
-              INSERT SCREENSHOT OF SUCCESSFUL PUSH *
-            </code>
+            <span class="screenshot">
+              <img src="https://s3.amazonaws.com/template-app-instructions-screenshots/eclipse/6-8-push-result.png" alt="Push Results" /> 
+            </span>
           </li>
           </ol>
 
