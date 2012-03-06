@@ -1,5 +1,141 @@
+<!doctype html>
+
 <html>
-<body>
-Import your app into eclipse and be merry...
-</body>
+  <head>
+    <meta charset="utf-8">
+    <title>template-app-name</title>
+
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css" rel="stylesheet">
+    <link href="http://twitter.github.com/bootstrap/assets/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!--
+    IMPORTANT:
+    This is Heroku specific styling. Remove to customize.
+    -->
+    <link href="http://heroku.github.com/template-app-bootstrap/heroku.css" rel="stylesheet">
+    <style type="text/css">
+      li { margin-bottom: 5px; }
+    </style>
+    <!-- /// -->
+    <script type="text/javascript">
+    <!--
+      function appname() {
+        return location.hostname.substring(0,location.hostname.indexOf("."));
+      }
+    // -->
+    </script>
+  </head>
+
+  <body>
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a href="/" class="brand">Embedded Jetty Template</a>
+          <!--
+          IMPORTANT:
+          This is Heroku specific markup. Remove to customize.
+          -->
+          <a href="/" class="brand" id="heroku">by <strong>heroku</strong></a>
+          <!-- /// -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container" id="getting-started">
+      <div class="row">
+        <div class="span8 offset2">
+          <h1 class="alert alert-success">Your app is ready!</h1>
+          
+          <div class="page-header">
+            <h1>Getting started with Embedded Jetty</h1>
+          </div>
+
+          <h2>Step 1. Setup your environment</h2>
+          <ol>
+            <li>Ensure <a href="http://unicase.blogspot.com/2011/01/egit-tutorial-for-beginners.html">EGit</a> is installed.</li>
+            <li>Ensure the <a href="http://www.eclipse.org/m2e/">Maven Eclipse Plugin</a> is installed.</li>
+            <li>Create an SSH key:
+              <ol>
+                <li>Go to <code>Window</code> | <code>Preferences</code> | <code>General</code> | <code>Network Connections</code> | <code>SSH2</code></li>
+                <li>Choose the <code>Key Management</code> tab</li>
+                <li>Click <code>Generate RSA Key...</code>
+                  <span class="thumbnail">
+                    INSERT SCREENSHOT SHOWING SSH2 PREFS WINDOW WITH SSH PUB KEY *
+                  </code>
+                </li>
+                <li>Copy the generated public key in the text box and add it to your account</li>
+                <li>Click <code>Save Private Key...</code>, accepting the defaults</li>
+                <li>Click <code>Ok</code></li>
+              </ol>
+            </li>
+          </ol>
+
+          <h2>Step 2. Clone the App</h2>
+          <ol>
+            <li>Go to <code>Window</code> | <code>Open Perspective</code> | <code>Other</code></li>
+            <li>Choose <code>Git Repository Exploring</code> and click <code>Ok</code>
+              <span class="thumbnail">
+                INSERT SCREENSHOT OF OPEN PERSPECTIVE WINDOW *
+              </code>
+            </li>
+            <li>Click <code>Clone a Repository</code></li>
+            <li>Choose <code>URI</code> and click <code>Next</code>
+              <span class="thumbnail">
+                INSERT SCREENSHOT OF SELECT A REPOSITORY SOURCE WINDOW *
+              </code>
+            </li>
+            <li>Enter <code>git@heroku.com:<script>document.write(appname());</script>.git</code> in the <code>URI</code> field.</li>
+            <li>Click <code>Next</code></li>
+            <li>Click <code>Ok</code> to the fingerprint and known hosts prompts if they appear.</li>
+            <li>Click <code>Finish</code></li>
+          </ol>
+
+          <h2>Step 3. Import the App</h2>
+          <ol>
+            <li>Choose <code>File</code> | <code>Import...</code> | <code>Maven</code> | <code>Existing Maven Projects</code></li>
+            <li>Click <code>Next</code></li>
+            <li>Set the <code>Root Directory</code> to $HOME\git, e.g. C:\Users\steve\git</li>
+            <li>Check the box next to <code><script>document.write(appname());</script>/pom.xml</code></li>
+            <li>Click <code>Finish</code></li>
+          </ol>
+          
+          <h2>Step 4. Makes some changes to the app</h2>
+          <ol>
+            <li>Open <code>HelloServlet.java</code></li>
+            <li>Modify line 20 with:
+              <code>
+                out.write("Deployed first change!".getBytes());
+              </code>
+            </li>
+          </ol>
+
+          <h2>Step 5. Deploy to Heroku</h2>
+          <ol>
+          <li>Right-click the project root and choose <code>Team</code> | <code>Share Project</code></li>
+          <li>Choose <code>Git</code></li>
+          <li>Check <code>Use or create repository</code> in the parent folder of project</li>
+          <li>Click <code>Finish</code></li>
+          <li>Right-click the project root and choose <code>Team</code> | <code>Commit</code></li>
+          <li>Enter a commit message and click <code>Ok</code></li>
+          <li>Right-click the project root and choose <code>Team</code> | <code>Push to Upstream</code></li>
+          <li>Review the push results. At the bottom, a "... deployed to Heroku" message will appear.
+            <span class="thumbnail">
+              INSERT SCREENSHOT OF SUCCESSFUL PUSH *
+            </code>
+          </li>
+          </ol>
+
+          <div class="hero-unit">
+            <h1>Done!</h1>
+            <p>You've just cloned, modified, and deployed a brand new app.</p>
+            <a href="/hello" class="btn btn-primary btn-large">See your changes</a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </body>
 </html>
