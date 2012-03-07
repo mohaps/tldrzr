@@ -17,8 +17,10 @@
     -->
     <link href="http://heroku.github.com/template-app-bootstrap/heroku.css" rel="stylesheet">
     <style type="text/css">
+      .instructions { display: none; }
       .instructions li { margin-bottom: 10px; }
       .instructions h2 { margin: 18px 0;}
+      .instructions blockquote { margin-top: 10px; }
       .screenshot {
         margin-top: 10px;
         display:block;
@@ -46,9 +48,6 @@
       }
       .tool-choice .span3 {
         text-align: center;
-      }
-      #eclipse-instructions {
-        display: none;
       }
     </style>
     <!-- /// -->
@@ -260,6 +259,62 @@
                   </a>
                 </span>
               </li>
+            </ol>
+
+            <div class="hero-unit">
+              <h1>Done!</h1>
+              <p>You've just cloned, modified, and deployed a brand new app.</p>
+              <a href="/hello" class="btn btn-primary btn-large">See your changes</a>
+            </div>
+          </div>
+
+          <div id="cli-instructions" class="instructions">
+            <a name="using-cli"></a>
+            <h1>Using Command Line:</h1>
+
+            <h2>Step 1. Setup your environment</h2>
+            <ol>
+              <li>Install the <a href="http://toolbelt.heroku.com">Heroku Toolbelt</a>.</li>
+              <li>Install <a href="http://maven.apache.org/download.html">Maven</a>.</li>
+            </ol>
+
+            <h2>Step 2. Login to Heroku</h2>
+            <code>heroku login</code>
+            <blockquote>
+              Be sure to create, or associate an SSH key with your account.
+            </blockquote>
+            <pre>
+$ heroku login
+Enter your Heroku credentials.
+Email: naaman@heroku.com
+Password:
+Could not find an existing public key.
+Would you like to generate one? [Yn] Y
+Generating new SSH public key.
+Uploading SSH public key /Users/Administrator/.ssh/id_rsa.pub
+Authentication successful.</pre>
+
+            <h2>Step 3. Clone the App</h2>
+            <code>git clone -o heroku git@heroku.com:<script>document.write(appname())</script>.git</code>
+
+            <h2>Step 4. Makes some changes to the app</h2>
+            <ol>
+              <li><script>document.write("<code>cd " + appname() + "/src/main/java/</code>")</script></li>
+              <li>Open <code>HelloServlet.java</code></li>
+              <li>Modify line 20 with:
+                <code>
+                  out.write("Deployed first change!".getBytes());
+                </code>
+              </li>
+            </ol>
+
+            <h2>Step 5. Make sure the app still compiles</h2>
+            <code>mvn clean package</code>
+
+            <h2>Step 6. Deploy your changes</h2>
+            <ol>
+              <li><code>git commit -am "New changes to deploy"</code></li>
+              <li><code>git push heroku master</code></li>
             </ol>
 
             <div class="hero-unit">
