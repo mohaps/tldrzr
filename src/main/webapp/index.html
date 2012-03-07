@@ -31,7 +31,7 @@
         display: inline-block;
         text-decoration: none;
       }
-      .screenshot img {
+      .screenshot img, .tool-choice img {
         border: 1px solid #ddd;
         -webkit-border-radius: 4px;
         -moz-border-radius: 4px;
@@ -48,6 +48,12 @@
       }
       .tool-choice .span3 {
         text-align: center;
+      }
+      .tool-choice .btn {
+        width: 197px;
+      }
+      .tool-choice a img {
+        cursor: pointer;
       }
     </style>
     <!-- /// -->
@@ -96,11 +102,11 @@
 
           <div class="row tool-choice">
             <div class="span3 offset1">
-              <img src="https://s3.amazonaws.com/template-app-instructions-screenshots/eclipse/eclipse-thumbnail.png" alt="Using Eclipse" />
+              <a href="#" onclick="showInstructions('#eclipse-instructions')"><img src="https://s3.amazonaws.com/template-app-instructions-screenshots/eclipse/eclipse-thumbnail.png" alt="Using Eclipse" /></a>
               <p><a href="#" onclick="showInstructions('#eclipse-instructions')" class="btn btn-primary btn-large">Using Eclipse</a></p>
             </div>
             <div class="span3">
-              <img src="https://s3.amazonaws.com/template-app-instructions-screenshots/cli/cli-thumbnail.png" alt="Using Command Line" />
+              <a href="#" onclick="showInstructions('#cli-instructions')"><img src="https://s3.amazonaws.com/template-app-instructions-screenshots/cli/cli-thumbnail.png" alt="Using Command Line" /></a>
               <p>
               <a href="#" onclick="showInstructions('#cli-instructions')" class="btn btn-primary btn-large">Using Command Line</a>
               </p>
@@ -299,8 +305,8 @@ Authentication successful.</pre>
 
             <h2>Step 4. Makes some changes to the app</h2>
             <ol>
-              <li><script>document.write("<code>cd " + appname() + "/src/main/java/</code>")</script></li>
-              <li>Open <code>HelloServlet.java</code></li>
+              <li><script>document.write("<code>cd " + appname() + "</code>")</script></li>
+              <li>Open <code>src/main/java/HelloServlet.java</code> with your favorite editor</li>
               <li>Modify line 20 with:
                 <code>
                   out.write("Deployed first change!".getBytes());
