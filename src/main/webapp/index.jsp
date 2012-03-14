@@ -3,7 +3,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>template-app-name</title>
+    <title>Embedded Jetty Template</title>
 
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -98,9 +98,9 @@
           </div>
           
           <p>
-            Embedded Jetty lets you take back your main method by including your app server in your app rather than relying on a
-            container for deployment. The app you've just cloned is a starting point for using embedded Jetty. Take a moment to
-            setup your dev environment, make some changes, and deploy:
+            This is a template for a web application that uses embedded Jetty. 
+            The sample code consists of a JSP (this page) and a <a href="hello">simple servlet</a>. 
+            Take a look around and then use Eclipse or the Command Line to deploy some changes.
           </p>
           
           <ul id="tab" class="nav nav-tabs">
