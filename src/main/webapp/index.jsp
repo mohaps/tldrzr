@@ -305,7 +305,7 @@
               <h2>Step 4. Makes some changes to the app</h2>
               <ol>
                 <li><script>document.write("<code>cd " + appname() + "</code>")</script></li>
-                <li>Open <code>src/main/java/HelloServlet.java</code> with your favorite editor</li>
+                <li>Open <code>src/main/java/com/example/HelloServlet.java</code> with your favorite editor</li>
                 <li>Modify line 20 with:
                   <code>
                     out.write("Deployed first change!".getBytes());
