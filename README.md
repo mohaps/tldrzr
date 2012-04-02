@@ -1,4 +1,4 @@
-# Spring MVC and Hibernate template application
+# Embedded Jetty template application
 
 This is a template for a web application that uses embedded Jetty. The sample code consists of a JSP (this page) and a simple servlet.
 
