@@ -300,8 +300,6 @@
 
             <div id="cli-instructions" class="instructions tab-pane">
               <a name="using-cli"></a>
-              <h1>Using Command Line:</h1>
-
               <h2>Step 1. Setup your environment</h2>
               <ol>
                 <li>Install the <a href="http://toolbelt.heroku.com">Heroku Toolbelt</a>.</li>
