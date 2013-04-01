@@ -57,6 +57,7 @@ public class TLDRServlet extends HttpServlet {
 		if(pathInfo.startsWith("/api/summarize")) {
 			String inputText = req.getParameter("input_text");
 			int sentenceCount = Integer.parseInt(req.getParameter("sentence_count"));
+			if(sentenceCount <= 0) { sentenceCount = Defaults.MAX_SENTENCES; }
 			String summaryText = null;
 			long start = System.currentTimeMillis();
 			long millis = 0;
