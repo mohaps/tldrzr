@@ -16,6 +16,8 @@ import com.mohaps.tldr.summarize.Factory;
 import com.mohaps.tldr.utils.Feeds;
 import com.mohaps.tldr.utils.Feeds.Item;
 
+import com.google.gson.stream.JsonWriter;
+
 public class TLDRServlet extends HttpServlet {
 
 	/**
@@ -41,12 +43,45 @@ public class TLDRServlet extends HttpServlet {
 			handleSummarizeTextCall(req, resp);
 		} else if(pathInfo != null && pathInfo.startsWith("/feed")) {
 			handleSummarizeFeedCall(req, resp);
+		} else if(pathInfo != null && pathInfo.startsWith("/api")) {
+			handleAPICall(req, resp);
 		} else {
 			resp.sendError(404, "could not locate POST endpoint "+pathInfo);
 		}
 	}
 	protected void showHomePage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.sendRedirect("/");
+	}
+	protected void handleAPICall(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String pathInfo = req.getPathInfo();
+		if(pathInfo.startsWith("/api/summarize")) {
+			String inputText = req.getParameter("input_text");
+			int sentenceCount = Integer.parseInt(req.getParameter("sentence_count"));
+			String summaryText = null;
+			long start = System.currentTimeMillis();
+			long millis = 0;
+			try {
+				summaryText = Factory.getSummarizer().summarize(inputText, sentenceCount);
+			} catch (Exception ex) {
+				throw new IOException("Failed to summarize", ex);
+			}finally {
+				millis = System.currentTimeMillis() - start;
+			}
+			resp.setContentType("application/json");
+			// serialize out as json
+			JsonWriter writer = new JsonWriter(resp.getWriter());
+			writer.beginObject();
+			writer.name("summary_text").value(summaryText);
+			writer.name("time_taken_millis").value(millis);
+			writer.endObject();
+			writer.flush();
+			writer.close();
+			resp.getWriter().flush();
+			resp.getWriter().close();
+			
+		} else {
+			resp.sendError(404,"API endpoint "+pathInfo+" not found!");
+		}
 	}
 	protected void handleSummarizeFeedCall(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		

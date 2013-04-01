@@ -29,11 +29,11 @@
 		<div class="demo_section">
 			<strong>Summarize a Feed (RSS/Atom)</strong>
 			<br>
-			<div align="center"><form name="tldr" method="post" action="/tldr/feed" accept-charset="iso-8859-1">Feed Url : <input type="text" size="40" name="feed_url" value="http://feeds.feedburner.com/TechCrunch/"><input type="submit" value="Summarize Feed" style="margin-left: 2px;"></form></div>
+			<div><form name="tldr" method="post" action="/tldr/feed" accept-charset="utf-8">Feed Url : <input type="text" size="40" name="feed_url" value="http://feeds.feedburner.com/TechCrunch/"><input type="submit" value="Summarize Feed" style="margin-left: 2px;"></form></div>
 			<p><small>Defaults to the TechCrunch Feed Burner RSS url. Hit the Summarize Feed button and you're good to go. This will fetch/parse/summarize the text, so be a bit patient. :) </small></p>
 			<strong>Summarize Text</strong>
 			<br>
-			<form name="tldr" method="post" action="/tldr/text" accept-charset="iso-8859-1">
+			<form name="tldr" method="post" action="/tldr/text" accept-charset="utf-8">
 			<div style="padding: 2px;">
 			<textarea cols="65" rows="25" name="input_text">Enter text to summarize here. </textarea>
 			</div>Sentences : <select name="sentence_count">
