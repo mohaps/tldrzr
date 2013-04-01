@@ -34,7 +34,7 @@
 			<strong>Summarize Text</strong>
 			<br>
 			<form name="tldr" method="post" action="/tldr/text" accept-charset="iso-8859-1">
-			<div align="center" style="padding: 2px;">
+			<div style="padding: 2px;">
 			<textarea cols="65" rows="25" name="input_text">Enter text to summarize here. </textarea>
 			</div>Sentences : <select name="sentence_count">
 				<option value="1">1</option>
