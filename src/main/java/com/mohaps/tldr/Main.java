@@ -1,4 +1,4 @@
-package com.example;
+package com.mohaps.tldr;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;

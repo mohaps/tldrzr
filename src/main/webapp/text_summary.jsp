@@ -26,36 +26,18 @@
         <div class="header">	
 		<h1>TL;DRizer - algorithmically generated summaries demo</h1>
 		</div>
-		<div class="demo_section">
-			<strong>Summarize a Feed (RSS/Atom)</strong>
-			<br>
-			<div align="center"><form name="tldr" method="post" action="/tldr/feed" accept-charset="iso-8859-1">Feed Url : <input type="text" size="40" name="feed_url" value="http://feeds.feedburner.com/TechCrunch/"><input type="submit" value="Summarize Feed" style="margin-left: 2px;"></form></div>
-			<p><small>Defaults to the TechCrunch Feed Burner RSS url. Hit the Summarize Feed button and you're good to go. This will fetch/parse/summarize the text, so be a bit patient. :) </small></p>
-			<strong>Summarize Text</strong>
-			<br>
-			<form name="tldr" method="post" action="/tldr/text" accept-charset="iso-8859-1">
-			<div align="center" style="padding: 2px;">
-			<textarea cols="65" rows="25" name="input_text">Enter text to summarize here. </textarea>
-			</div>Sentences : <select name="sentence_count">
-				<option value="1">1</option>
-				<option value="2">2</option>
-				<option value="3">3</option>
-				<option value="4">4</option>
-				<option value="5" selected="true">5</option>
-				<option value="6">6</option>
-				<option value="7">7</option>
-			</select>
-			<input type="submit" value="Summarize Text"></form>
-			<p><small>If cutting/pasting, try to use the paste as plaintext option</small></p>
-		</div>
 		<div class="content">
 		<div class="content_section">
-			<h2>How it works?</h2>
-			<p>TL;DR uses an algorithm derived from <a href="http://classifier4j.sf.net">Classifier4J.</a> It first tokenizes the text into words and then calculates the top N most frequent words (discarding stop words and single occurence words). It then scans the sentences and gets the first N sentences which feature any or all of the most frequent words. The sentences are sorted based on first occurence in original text and concatenated to create the summary. The user has control over how long the generated summary should be in terms of sentence count.</p>
+			<h2>Generated Summary <small><em>(upto ${summary.sentence_count} sentences)</em></small></h2>
+			<blockquote>${summary.summary}</blockquote>
+			<p><small>Generated in ${summary.millis} milliseconds</small></p>
 			
-		<p><strong>TL;DR</strong> is written in Java and uses <a href="http://jsoup.org">Jsoup</a> for html text scraping, <a href="http://rometools.jira.com">ROME</a> for RSS Feed parsing (which depends on <a href="http://jdom.org">JDOM</a>).</p>
+			<h2>Original Text</h2>
+			<blockquote>${summary.original}</blockquote>
+			
+			
 		</div>
-		</div>
+		<div><a href="/">back to TLDRizer</a></div>
 		<div class="footer">
 		<p>This is a weekend project/hackday demo created by <a href="http://mohaps.com">mohaps AT gmail DOT com</a>. Still very much wetpaint/work in progress. Comments/crits are appreciated.</p>
 		</div>

@@ -10,13 +10,17 @@
     </welcome-file-list>
     
   <servlet>
-    <servlet-name>hello</servlet-name>
-    <servlet-class>com.example.HelloServlet</servlet-class>
+    <servlet-name>tldr</servlet-name>
+    <servlet-class>com.mohaps.tldr.TLDRServlet</servlet-class>
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>hello</servlet-name>
-    <url-pattern>/hello</url-pattern>
+    <servlet-name>tldr</servlet-name>
+    <url-pattern>/tldr</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>tldr</servlet-name>
+    <url-pattern>/tldr/*</url-pattern>
   </servlet-mapping>
 
 
