@@ -82,7 +82,7 @@ public class Summarizer implements ISummarizer {
 				// sentenceCount sentences )
 				Iterator<String> iter = sentences.iterator();
 				while (iter.hasNext()
-						&& outputSentences.size() <= sentenceCount) {
+						&& outputSentences.size() < sentenceCount) {
 					String actualSentence = iter.next();
 					String workingSentence = actualSentence.toLowerCase();
 					Iterator<String> words = frequentWords.iterator();
