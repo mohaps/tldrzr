@@ -28,7 +28,7 @@ public class Summarizer implements ISummarizer {
 		} else {
 
 			// check summary cache for input hit
-			byte[] inputHash = sha1(input);
+			byte[] inputHash = sha1(input, ":length=", Integer.toString(input.length()));
 			String cached = SummaryCache.instance().get(inputHash);
 			if (cached != null) {
 				return cached;
@@ -117,9 +117,11 @@ public class Summarizer implements ISummarizer {
 		}
 	}
 
-	public static final byte[] sha1(String input) throws Exception {
+	public static final byte[] sha1(String ...inputs) throws Exception {
 		MessageDigest md = MessageDigest.getInstance("SHA1");
-		md.update(input.getBytes());
+		for(String input :  inputs) {
+			md.update(input.getBytes());
+		}
 		return md.digest();
 	}
 
