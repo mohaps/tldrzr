@@ -8,13 +8,36 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import opennlp.tools.sentdetect.SentenceDetectorME;
+import opennlp.tools.sentdetect.SentenceModel;
+
 
 import com.mohaps.tldr.summarize.Defaults;
 import com.mohaps.tldr.summarize.IStopWords;
 import com.mohaps.tldr.summarize.ITokenizer;
 
+import java.io.*;
 
 public final class Words {
+	private static SentenceModel SENTENCE_MODEL;
+	static {
+		try { 
+			InputStream inputFile = Words.class.getClassLoader().getResourceAsStream("en-sent.bin");
+			if(inputFile != null) {
+				try {
+					SENTENCE_MODEL = new SentenceModel(inputFile);
+					System.out.println(">> OpenNLP Sentence Model loaded!");
+				} finally {
+					if(inputFile != null) {
+						try { inputFile.close(); } catch (Throwable t){}
+					}
+				}
+			}
+		} catch (IOException ex) {
+			System.err.println("Failed to load sentence model for OpenNLP. error = "+ex.getLocalizedMessage()+". Will fall back to regex based sentence parsing");
+			ex.printStackTrace();
+		}
+	}
 	private static class Word {
 		private String word;
 		private int frequency;
@@ -79,8 +102,27 @@ public final class Words {
 	public static final boolean isWord(String word) {
 		return (word != null && word.trim().length() > 0);
 	}
-	
 	public static Set<String> parseSentences(String input, ITokenizer tokenizer, int minimumWordsInASentence) throws Exception {
+		if(SENTENCE_MODEL != null) {
+			return parseSentencesNLP(input, tokenizer, minimumWordsInASentence);
+		} else {
+			return parseSentencesRegEx(input, tokenizer, minimumWordsInASentence);
+		}
+	}
+	public static Set<String> parseSentencesNLP(String input, ITokenizer tokenizer, int minimumWordsInASentence) throws Exception {
+		SentenceDetectorME sentenceDetector = new SentenceDetectorME(SENTENCE_MODEL);
+		String[] rawSentences = sentenceDetector.sentDetect(input);
+		HashSet<String> sentences = new HashSet<String>();
+		for(int i = 0; i < rawSentences.length; i++) {
+			String rawSentence = rawSentences[i];
+			String[] words = tokenizer.tokenize(rawSentence);
+			if(words.length >= minimumWordsInASentence) {
+				sentences.add(rawSentence);
+			}
+		}
+		return sentences;
+	}
+	public static Set<String> parseSentencesRegEx(String input, ITokenizer tokenizer, int minimumWordsInASentence) throws Exception {
 		String[] rawSentences = input.split(Defaults.REGEX_SENTENCES);
 		HashSet<String> sentences = new HashSet<String>();
 		for(int i = 0; i < rawSentences.length; i++) {
@@ -92,5 +134,29 @@ public final class Words {
 		}
 		return sentences;
 	}
-
+	public static final String replaceSmartQuotes(String input) {
+	    StringBuilder sb = new StringBuilder();
+	    for ( int i = 0; i < input.length(); i++ ) {
+	        char c = input.charAt(i);
+	        switch (c) {
+	            case '\u8220':
+	                sb.append("\"");
+	                break;
+	            case '\u8221':
+	                sb.append("\"");
+	                break;
+	            case '\u8216':
+	                sb.append("\'");
+	                break;
+	            case '\u8217':
+	                sb.append("\'");
+	                break;
+	            default:
+	                sb.append(c);
+	                break;
+	        }
+	    }
+	    return sb.toString();
+		
+	}
 }

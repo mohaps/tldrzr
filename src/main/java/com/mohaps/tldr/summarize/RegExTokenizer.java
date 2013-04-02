@@ -1,11 +1,11 @@
 package com.mohaps.tldr.summarize;
 
-public class Tokenizer implements ITokenizer {
+public class RegExTokenizer implements ITokenizer {
 	private String tokenRegEx;
-	public Tokenizer() {
+	public RegExTokenizer() {
 		this(Defaults.REGEX_WORDS);
 	}
-	public Tokenizer(String tokenRegEx) {
+	public RegExTokenizer(String tokenRegEx) {
 		this.tokenRegEx = tokenRegEx;
 		if(this.tokenRegEx == null) {
 			this.tokenRegEx = Defaults.REGEX_WORDS;
@@ -19,7 +19,7 @@ public class Tokenizer implements ITokenizer {
 		}
 	}
 	public String toString() {
-		return new StringBuilder("DefaultTokenizer(regex=\"").append(tokenRegEx).append("\"").toString();
+		return new StringBuilder("RegExTokenizer(regex=\"").append(tokenRegEx).append("\"").toString();
 	}
 
 }
