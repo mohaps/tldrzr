@@ -91,7 +91,7 @@ public class Summarizer implements ISummarizer {
 						if (workingSentence.indexOf(word) >= 0) {
 							outputSentences.add(actualSentence);
 						}
-						if (outputSentences.size() > sentenceCount) {
+						if (outputSentences.size() >= sentenceCount) {
 							break;
 						}
 					}
