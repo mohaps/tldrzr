@@ -28,7 +28,7 @@ public class Summarizer implements ISummarizer {
 		} else {
 
 			// check summary cache for input hit
-			byte[] inputHash = sha1(input, ":length=", Integer.toString(input.length()));
+			byte[] inputHash = sha1(input, ":sentences=", Integer.toString(sentenceCount));
 			String cached = SummaryCache.instance().get(inputHash);
 			if (cached != null) {
 				return cached;
