@@ -36,7 +36,7 @@ public class Summarizer implements ISummarizer {
 				// get top 100 most frequent words that are not stop words
 				Set<String> frequentWords = Words.getMostFrequent(input,
 						tokenizer, stopWords, maxFrequentWords,
-						shouldIgnoreSingleOccurences);
+						shouldIgnoreSingleOccurences?2:1);
 				// now let's get the unique sentences
 				Set<String> sentences = Words.parseSentences(input, tokenizer,
 						Defaults.MIN_WORDS_PER_SENTENCE);
@@ -131,6 +131,13 @@ public class Summarizer implements ISummarizer {
 				Defaults.MAX_MOST_FREQUENT_WORDS,
 				Defaults.SHOULD_IGNORE_SINGLE_OCCURENCES);
 
+	}
+
+	public Set<String> keywords(String input, int maxKeyWords) throws Exception {
+
+		return Words.getMostFrequent(input,
+				tokenizer, stopWords, maxKeyWords,
+				4);
 	}
 
 }

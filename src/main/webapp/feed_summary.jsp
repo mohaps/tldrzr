@@ -42,6 +42,12 @@
 						<h4>Summary (<em>Generated</em>)</h4>
 						<blockquote style="color: rgb(200,10,10); font-style: italic;">${feedEntry.summary}</blockquote>
 					</div>
+					<!-- div class="feedEntryKeywords">
+						<h4>Keywords (<em>Generated</em>)</h4>
+						<c:forEach var="keyword" items="${feedEntry.keywords}"> 
+							<em><c:out value="${keyword}" />,</em>
+						</c:forEach>
+					</div -->
 					<div class="feedEntryText">
 						<h4>Text (<em>Original</em>)</h4>
 						<blockquote>${feedEntry.text}</blockquote>

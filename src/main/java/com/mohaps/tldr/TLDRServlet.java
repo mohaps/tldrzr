@@ -3,6 +3,7 @@ package com.mohaps.tldr;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -95,7 +96,9 @@ public class TLDRServlet extends HttpServlet {
 			List<Feeds.Item> feedItems = Feeds.fetchFeedItems(feedUrl);
 			for(Item item : feedItems) {
 				String summary = Factory.getSummarizer().summarize(item.getText(), Defaults.SUMMARY_LENGTH);
-				SummarizedFeedEntry entry = new SummarizedFeedEntry(item.getTitle(), item.getAuthor(), item.getLink(), item.getText(), summary);
+				//TODO: hook up keywords after stem word fix
+				Set<String> keywords = null; //Factory.getSummarizer().keywords(item.getText(), 10);
+				SummarizedFeedEntry entry = new SummarizedFeedEntry(item.getTitle(), item.getAuthor(), item.getLink(), item.getText(), summary, keywords);
 				entries.add(entry);
 			}
 		} catch(Exception ex) {

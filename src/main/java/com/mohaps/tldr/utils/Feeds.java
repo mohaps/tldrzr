@@ -1,6 +1,8 @@
 package com.mohaps.tldr.utils;
 
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.net.*;
 import java.io.*;
 
@@ -80,10 +82,16 @@ public final class Feeds {
 			throw new Exception("Content type " + contentType
 					+ " detected at page " + pageUrl + " is non-textual");
 		}
+		String encoding = conn.getContentEncoding();
+		Logger.getLogger("Feeds").log(Level.INFO, "!---- Encoding Detected : "+encoding);
+		if(encoding == null) {
+			encoding = "ISO-8859-1";
+		}
 		if (contentLength >= 0) {
+			System.out.println(">> Reading "+contentLength+" bytes!!!");
 			byte[] buf = new byte[contentLength];
 			int bread = readUpto(in, contentLength, buf, 0, buf.length);
-			return bread > 0 ? new String(buf, 0, bread)
+			return bread > 0 ? new String(buf, 0, bread, encoding)
 					: Defaults.BLANK_STRING;
 		} else {
 			System.out.println(">> No content length specified for " + pageUrl
@@ -95,7 +103,7 @@ public final class Feeds {
 					.readLine()) {
 				sb.append(line).append("\n");
 			}
-			return sb.toString();
+			return Words.replaceSmartQuotes(sb.toString());
 		}
 	}
 
@@ -122,6 +130,7 @@ public final class Feeds {
 			throws Exception {
 		URL url = new URL(feedUrl);
 		SyndFeedInput input = new SyndFeedInput();
+		//XmlReader.setDefaultEncoding("ISO-8859-1");
 		XmlReader xmlReader = new XmlReader(url);
 		SyndFeed feed = input.build(xmlReader);
 		ArrayList<Item> items = new ArrayList<Item>();
@@ -133,6 +142,7 @@ public final class Feeds {
 			if (title == null) {
 				title = "unknown";
 			}
+			title = Words.replaceSmartQuotes(title);
 			String link = entry.getLink();
 			if (link == null) {
 				link = feedUrl;
@@ -145,13 +155,13 @@ public final class Feeds {
 			@SuppressWarnings("unchecked")
 			List<SyndContent> contents = entry.getContents();
 			if (contents.size() == 0) {
-				String desc = Jsoup.parse(entry.getDescription().getValue()).text();
+				String desc = Jsoup.parse(Words.replaceSmartQuotes(entry.getDescription().getValue())).text();
 				items.add(new Item(title,author,link,desc));
 			} else {
 				// System.out.println(title);
 				for (SyndContent content : contents) {
 					if (content.getType().equalsIgnoreCase("html")) {
-						String html = Jsoup.parse(content.getValue()).text();
+						String html = Jsoup.parse(Words.replaceSmartQuotes(content.getValue())).text();
 						items.add(new Item(title,author,link,html));
 					} else {
 						System.out.println(">> non html content type : "
@@ -171,8 +181,8 @@ public final class Feeds {
 		long start = System.currentTimeMillis();
 		for(Item item : feedItems) {
 			System.out.println("\n"+item.title);
-			String summary = Factory.getSummarizer().summarize(item.getText(), Defaults.SUMMARY_LENGTH);
-			System.out.println("SUMMARY: \n"+summary);
+			//String summary = Factory.getSummarizer().summarize(item.getText(), Defaults.SUMMARY_LENGTH);
+			//System.out.println("SUMMARY: \n"+summary);
 		}
 		long time1 = System.currentTimeMillis() - start;
 		start = System.currentTimeMillis();
