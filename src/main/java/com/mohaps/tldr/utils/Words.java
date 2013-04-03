@@ -198,6 +198,7 @@ public final class Words {
 				.replace('\u2026', '-')
 				.replace('\u2013', '-')
 				.replace('\u2014', '-')
+				.replaceAll("&#8211;", "-")				
 				.replaceAll("&#8220;", "\"")
 				.replaceAll("&#8221;", "\"")
 				.replaceAll("&#8216;", "\'")
