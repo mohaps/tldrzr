@@ -190,7 +190,15 @@ public final class Words {
 	}
 
 	public static final String replaceSmartQuotes(String s) {
-		return s.replace('\u201b', '\'').replace('\u2018', '\'').replace('\u2019', '\'').replace('\u2026', '-').replace('\u2014', '-').replaceAll("&#8220;", "\"")
+		return s.replace('\u2018', '\'')
+				.replace('\u2019', '\'')
+				.replace('\u201c', '\"')
+				.replace('\u201b', '\'')
+				.replace('\u201d', '\"')
+				.replace('\u2026', '-')
+				.replace('\u2013', '-')
+				.replace('\u2014', '-')
+				.replaceAll("&#8220;", "\"")
 				.replaceAll("&#8221;", "\"")
 				.replaceAll("&#8216;", "\'")
 				.replaceAll("&#8217;", "\'")
@@ -201,7 +209,7 @@ public final class Words {
 	}
 	
 	public static void main(String[] args) {
-		String s = "Yeah, yeah — it’s just a quick CSS hack applied to any detected instance of Gmail, but imagine all the jealous looks… sympathy… hipster cred*";
+		String s = "–than estimated by Umeng–";
 		for(int i = 0; i < s.length(); i++){
 			System.out.println(">> Char Code "+(short)s.charAt(i)+" (0x"+Integer.toHexString((short)s.charAt(i))+") - {"+s.charAt(i)+"}");
 		}
