@@ -17,6 +17,9 @@ import com.mohaps.tldr.summarize.ITokenizer;
 
 import java.io.*;
 
+import org.tartarus.snowball.SnowballStemmer;
+import org.tartarus.snowball.ext.englishStemmer;
+
 public final class Words {
 	private static SentenceModel SENTENCE_MODEL;
 	static {
@@ -82,17 +85,21 @@ public final class Words {
 		HashMap<String, Word> words = new HashMap<String, Word>();
 		ArrayList<Word> wordList = new ArrayList<Word>();
 		String[] wordTokens = tokenizer.tokenize(input);
+		SnowballStemmer stemmer = new englishStemmer();
 		for (int i = 0; i < wordTokens.length; i++) {
-			PorterStemmer stemmer = new PorterStemmer();
-			String wordToken = stemmer.addAndStem(wordTokens[i]);
-			if (isWord(wordToken) && !stopWords.isStopWord(wordToken) && wordToken.length() > 4) {
-				Word w = words.get(wordToken);
-				if (w != null) {
-					w.increment();
-				} else {
-					w = new Word(wordToken);
-					words.put(wordToken, w);
-					wordList.add(w);
+			if(isWord(wordTokens[i]) && wordTokens[i].length() > 4) {
+				stemmer.setCurrent(wordTokens[i]);
+				stemmer.stem();
+				String wordToken = stemmer.getCurrent();
+				if (isWord(wordToken) && !stopWords.isStopWord(wordToken) && wordToken.length() > 4) {
+					Word w = words.get(wordToken);
+					if (w != null) {
+						w.increment();
+					} else {
+						w = new Word(wordToken);
+						words.put(wordToken, w);
+						wordList.add(w);
+					}
 				}
 			}
 		}
