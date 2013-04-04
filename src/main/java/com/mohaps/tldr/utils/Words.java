@@ -187,6 +187,7 @@ public final class Words {
 			}
 		}
 		return sentences;
+		
 	}
 
 	public static final String replaceSmartQuotes(String s) {
