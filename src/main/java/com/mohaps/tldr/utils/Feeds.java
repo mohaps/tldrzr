@@ -155,7 +155,11 @@ public final class Feeds {
 			@SuppressWarnings("unchecked")
 			List<SyndContent> contents = entry.getContents();
 			if (contents.size() == 0) {
-				String desc = Jsoup.parse(Words.replaceSmartQuotes(entry.getDescription().getValue())).text();
+				String rawDesc;
+				if(entry.getDescription() == null) {
+					rawDesc = fetchPageText(entry.getLink());
+				} else { rawDesc = entry.getDescription().getValue(); }
+				String desc = rawDesc != null ? Jsoup.parse(Words.replaceSmartQuotes(rawDesc)).text() : entry.getLink();
 				items.add(new Item(title,author,link,desc));
 			} else {
 				// System.out.println(title);
@@ -174,7 +178,7 @@ public final class Feeds {
 	}
 
 	public static final void main(String[] args) throws Exception {
-		String feedUrl = args.length > 1 ? args[1] : "http://feeds.feedburner.com/TechCrunch/";
+		String feedUrl = args.length > 1 ? args[1] : "http://blog.medusis.com/rss";
 		System.out.println("Fetching feed : "+feedUrl);
 		List<Item> feedItems = fetchFeedItems(feedUrl);
 		System.out.println(">> items found : "+feedItems.size());
