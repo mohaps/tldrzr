@@ -29,10 +29,11 @@
 		<h1>TL;DRizer - algorithmically generated summaries demo</h1>
 		</div>
 		<div class="demo_section">
-			<strong>Summarize a Feed (RSS/Atom)</strong>
+			<strong>Summarize a Feed (RSS/Atom) or a URL</strong>
 			<br>
 			<div><form name="tldr" method="post" action="/tldr/feed" accept-charset="utf-8">Feed Url : <input type="text" size="40" name="feed_url" value="http://feeds.feedburner.com/TechCrunch/"><input type="submit" value="Summarize Feed" style="margin-left: 2px;"></form></div>
 			<p><small>Defaults to the TechCrunch Feed Burner RSS url. Hit the Summarize Feed button and you're good to go. This will fetch/parse/summarize the text, so be a bit patient. :) </small></p>
+			<p style="font-size: 10px;"><strong style="color: #ff1010;">[NEW] You can also put in a web url and it will fetch the page and try to summarize the page content.</strong></p>
 			<strong>Summarize Text</strong>
 			<br>
 			<form name="tldr" method="post" action="/tldr/text" accept-charset="utf-8">
@@ -56,7 +57,7 @@
 			<p>TL;DRizer uses an algorithm derived from <a href="http://classifier4j.sf.net">Classifier4J</a>. I used the basic algo from Classifier4j, optimized it and added some refinements.</p>
 			<p> The basic algorithm for summarization is like this. It first tokenizes the text into words and then calculates the top N most frequent words (discarding stop words and single occurence words). It then scans the sentences and gets the first N sentences which feature any or all of the most frequent words. The sentences are sorted based on first occurence in original text and concatenated to create the summary. The user has control over how long the generated summary should be in terms of sentence count.</p>
 			
-		<p><strong>TL;DRizer</strong> is written in Java and uses <a href="http://jsoup.org">Jsoup</a> for html text scraping, <a href="http://rometools.jira.com">ROME</a> for RSS Feed parsing (which depends on <a href="http://jdom.org">JDOM</a>). The parsing of sentences and word tokenization uses <a href="http://opennlp.apache.org">OpenNLP</a>. It uses the Porter2 stemmer algorithm from <a href="http://snowball.tartarus.org/algorithms/english/stemmer.html">here</a> to process the tokens emitted by the tokenizer.</p>
+		<p><strong>TL;DRizer</strong> is written in Java and uses <a href="http://jsoup.org">Jsoup</a> for html text scraping, <a href="http://rometools.jira.com">ROME</a> for RSS Feed parsing (which depends on <a href="http://jdom.org">JDOM</a>). The parsing of sentences and word tokenization uses <a href="http://opennlp.apache.org">OpenNLP</a>. It uses the Porter2 stemmer algorithm from <a href="http://snowball.tartarus.org/algorithms/english/stemmer.html">here</a> to process the tokens emitted by the tokenizer. The new summarize any url feature uses <a href="https://code.google.com/p/boilerpipe/">BoilerPipe</a></p>
 		</div>
 		</div>
 		<div class="footer">

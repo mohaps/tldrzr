@@ -1,4 +1,4 @@
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -13,9 +13,9 @@
 
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
-        <link rel="stylesheet" href="css/normalize.css">
-        <link rel="stylesheet" href="css/main.css">
-        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+        <link rel="stylesheet" href="/css/normalize.css">
+        <link rel="stylesheet" href="/css/main.css">
+        <script src="/js/vendor/modernizr-2.6.2.min.js"></script>
         <title>TL;DRizer - an algorithmic summary generation demo</title>
     </head>
     <body>
@@ -27,14 +27,15 @@
         <div class="header">	
 		<h1>TL;DRizer - algorithmically generated summaries demo</h1>
 		</div>
+		<div><a href="/">back to TLDRizer</a></div>
 		<div class="content">
 		<div class="content_section">
 			<h2>Generated Summary <small><em>(upto ${summary.sentence_count} sentences)</em></small></h2>
-			<blockquote>${summary.summary}</blockquote>
+			<div class="feedEntrySummary"><blockquote style="color: rgb(200,10,10); font-style: italic;"><c:out value="${summary.summary}"/></blockquote></div>
 			<p><small>Generated in ${summary.millis} milliseconds</small></p>
 			
 			<h2>Original Text</h2>
-			<blockquote>${summary.original}</blockquote>
+			<div class="feedEntryText"><blockquote><c:out value="${summary.original}"/></blockquote></div>
 			
 			
 		</div>
@@ -44,10 +45,10 @@
 		</div>
 		</div>
 
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <!--  script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
         <script src="js/plugins.js"></script>
-        <script src="js/main.js"></script>
+        <script src="js/main.js"></script -->
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <script>

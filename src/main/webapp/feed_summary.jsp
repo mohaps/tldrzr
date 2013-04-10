@@ -13,9 +13,9 @@
 
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
-        <link rel="stylesheet" href="css/normalize.css">
-        <link rel="stylesheet" href="css/main.css">
-        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+        <link rel="stylesheet" href="/css/normalize.css">
+        <link rel="stylesheet" href="/css/main.css">
+        <script src="/js/vendor/modernizr-2.6.2.min.js"></script>
         
         <title>TL;DRizer - an algorithmic summary generation demo</title>
     </head>
@@ -28,6 +28,7 @@
         <div class="header">	
 		<h1>TL;DRizer - algorithmically generated summaries demo</h1>
 		</div>
+		<div><a href="/">back to TLDRizer</a></div>
 		<div class="content">
 		<div class="content_section">
 			<h2>Summarized Feed</h2>
@@ -36,11 +37,11 @@
 			<p><h3>Feed Entries</h3></p>
 			 <c:forEach var="feedEntry" items="${summarized_feed.entries}" >  
 				<div class="feedEntryItem" style="margin: 2px; padding: 8px; border: 1px dashed;">
-					<div class="feedEntryTitle"><strong>${feedEntry.title}</strong></div>
-					<div class="feedEntryAuthor"><em>by ${feedEntry.author}</em></div><hr>
+					<div class="feedEntryTitle"><strong><c:out value="${feedEntry.title}"/></strong></div>
+					<div class="feedEntryAuthor"><em>by <c:out value="${feedEntry.author}"/></em></div><hr>
 					<div class="feedEntrySummary">
 						<h4>Summary (<em>Generated</em>)</h4>
-						<blockquote style="color: rgb(200,10,10); font-style: italic;">${feedEntry.summary}</blockquote>
+						<blockquote style="color: rgb(200,10,10); font-style: italic;"><c:out value="${feedEntry.summary}"/></blockquote>
 					</div>
 					<!-- div class="feedEntryKeywords">
 						<h4>Keywords (<em>Generated</em>)</h4>
@@ -50,7 +51,7 @@
 					</div -->
 					<div class="feedEntryText">
 						<h4>Text (<em>Original</em>)</h4>
-						<blockquote>${feedEntry.text}</blockquote>
+						<blockquote><c:out value="${feedEntry.text}"/></blockquote>
 					</div>
 					<div class="feedEntryLink" style="padding-bottom: 5px;"><small><hr>Read more at : <a href="${feedEntry.link}">${feedEntry.link}</a><hr></small></div>
 				</div>
@@ -68,10 +69,10 @@
 		</div>
 		</div>
 
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <!-- script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
         <script src="js/plugins.js"></script>
-        <script src="js/main.js"></script>
+        <script src="js/main.js"></script -->
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <script>

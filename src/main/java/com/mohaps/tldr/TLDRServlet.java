@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jsoup.Jsoup;
+
 import com.mohaps.tldr.summarize.Defaults;
 import com.mohaps.tldr.summarize.Factory;
 import com.mohaps.tldr.utils.Feeds;
@@ -28,46 +30,61 @@ public class TLDRServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-		
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+
 		String pathInfo = req.getPathInfo();
-		if(pathInfo == null || pathInfo.length() == 0) {
-			showHomePage(req, resp);
+		if (pathInfo == null || pathInfo.length() == 0 || pathInfo.equals("/")) {
+			String feedUrl = req.getParameter("feed_url");
+			if (feedUrl != null && feedUrl.length() > 0) {
+				summarizeFeedUrl(feedUrl, req, resp);
+			} else {
+				showHomePage(req, resp);
+			}
 		} else {
-			resp.sendError(404, "Path "+pathInfo+" not found");
-		}	
-    }
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String pathInfo = req.getPathInfo();
-		if(pathInfo != null && pathInfo.startsWith("/text")) {
-			handleSummarizeTextCall(req, resp);
-		} else if(pathInfo != null && pathInfo.startsWith("/feed")) {
-			handleSummarizeFeedCall(req, resp);
-		} else if(pathInfo != null && pathInfo.startsWith("/api")) {
-			handleAPICall(req, resp);
-		} else {
-			resp.sendError(404, "could not locate POST endpoint "+pathInfo);
+			resp.sendError(404, "Path " + pathInfo + " not found");
 		}
 	}
-	protected void showHomePage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		String pathInfo = req.getPathInfo();
+		if (pathInfo != null && pathInfo.startsWith("/text")) {
+			handleSummarizeTextCall(req, resp);
+		} else if (pathInfo != null && pathInfo.startsWith("/feed")) {
+			handleSummarizeFeedCall(req, resp);
+		} else if (pathInfo != null && pathInfo.startsWith("/api")) {
+			handleAPICall(req, resp);
+		} else {
+			resp.sendError(404, "could not locate POST endpoint " + pathInfo);
+		}
+	}
+
+	protected void showHomePage(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
 		resp.sendRedirect("/");
 	}
-	protected void handleAPICall(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+	protected void handleAPICall(HttpServletRequest req,
+			HttpServletResponse resp) throws ServletException, IOException {
 		String pathInfo = req.getPathInfo();
-		if(pathInfo.startsWith("/api/summarize")) {
+		if (pathInfo.startsWith("/api/summarize")) {
 			String inputText = req.getParameter("input_text");
-			int sentenceCount = Integer.parseInt(req.getParameter("sentence_count"));
-			if(sentenceCount <= 0) { sentenceCount = Defaults.MAX_SENTENCES; }
+			int sentenceCount = Integer.parseInt(req
+					.getParameter("sentence_count"));
+			if (sentenceCount <= 0) {
+				sentenceCount = Defaults.MAX_SENTENCES;
+			}
 			String summaryText = null;
 			long start = System.currentTimeMillis();
 			long millis = 0;
 			try {
-				summaryText = Factory.getSummarizer().summarize(inputText, sentenceCount);
+				summaryText = Factory.getSummarizer().summarize(inputText,
+						sentenceCount);
 			} catch (Exception ex) {
 				throw new IOException("Failed to summarize", ex);
-			}finally {
+			} finally {
 				millis = System.currentTimeMillis() - start;
 			}
 			resp.setContentType("application/json");
@@ -81,63 +98,116 @@ public class TLDRServlet extends HttpServlet {
 			writer.close();
 			resp.getWriter().flush();
 			resp.getWriter().close();
-			
+
 		} else {
-			resp.sendError(404,"API endpoint "+pathInfo+" not found!");
+			resp.sendError(404, "API endpoint " + pathInfo + " not found!");
 		}
 	}
-	protected void handleSummarizeFeedCall(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+
+	protected void handleSummarizeFeedCall(HttpServletRequest req,
+			HttpServletResponse resp) throws ServletException, IOException {
+
 		String feedUrl = req.getParameter("feed_url");
-		List<SummarizedFeedEntry> entries = new ArrayList<SummarizedFeedEntry>();
-		long start = System.currentTimeMillis();
-		long millis = 0;
-		try {
-			List<Feeds.Item> feedItems = Feeds.fetchFeedItems(feedUrl);
-			for(Item item : feedItems) {
-				String summary = Factory.getSummarizer().summarize(item.getText(), Defaults.SUMMARY_LENGTH);
-				//TODO: hook up keywords after stem word fix
-				Set<String> keywords = null; //Factory.getSummarizer().keywords(item.getText(), 10);
-				SummarizedFeedEntry entry = new SummarizedFeedEntry(item.getTitle(), item.getAuthor(), item.getLink(), item.getText(), summary, keywords);
-				entries.add(entry);
-			}
-		} catch(Exception ex) {
-			throw new IOException("Failed to summarize feed url : "+feedUrl, ex);
-		} finally {
-			millis = System.currentTimeMillis() - start;
-		}
-		SummarizedFeed summarizedFeed = new SummarizedFeed(feedUrl, entries, millis);
-		req.setAttribute("summarized_feed", summarizedFeed);
-		req.getRequestDispatcher("/feed_summary.jsp").forward(req, resp);
+		summarizeFeedUrl(feedUrl, req, resp);
 	}
-	protected void handleSummarizeTextCall(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-		
-		String inputText = req.getParameter("input_text");
-		int sentenceCount = Integer.parseInt(req.getParameter("sentence_count"));
+
+	protected void summarizeFeedUrl(String feedUrl, HttpServletRequest req,
+			HttpServletResponse resp) throws ServletException, IOException {
+
+		String contentType = Feeds.getContentType(feedUrl);
+		// System.out.println(" >> Content Type ("+feedUrl+") -> "+contentType);
+		if (contentType != null
+				&& (contentType.startsWith("text/html") || contentType
+						.startsWith("text/plain"))) {
+			summarizePageText(feedUrl, req, resp);
+		} else {
+			List<SummarizedFeedEntry> entries = new ArrayList<SummarizedFeedEntry>();
+			long start = System.currentTimeMillis();
+			long millis = 0;
+			try {
+				List<Feeds.Item> feedItems = Feeds.fetchFeedItems(feedUrl);
+				for (Item item : feedItems) {
+					String summary = Factory.getSummarizer().summarize(
+							item.getText(), Defaults.SUMMARY_LENGTH);
+					// TODO: hook up keywords after stem word fix
+					Set<String> keywords = null; // Factory.getSummarizer().keywords(item.getText(),
+													// 10);
+					SummarizedFeedEntry entry = new SummarizedFeedEntry(
+							item.getTitle(), item.getAuthor(), item.getLink(),
+							item.getText(), summary, keywords);
+					entries.add(entry);
+				}
+			} catch (Exception ex) {
+				throw new IOException("Failed to summarize feed url : "
+						+ feedUrl, ex);
+			} finally {
+				millis = System.currentTimeMillis() - start;
+			}
+			SummarizedFeed summarizedFeed = new SummarizedFeed(feedUrl,
+					entries, millis);
+			req.setAttribute("summarized_feed", summarizedFeed);
+			req.getRequestDispatcher("/feed_summary.jsp").forward(req, resp);
+		}
+	}
+
+	protected void summarizePageText(String pageUrl, HttpServletRequest req,
+			HttpServletResponse resp) throws ServletException, IOException {
+		try {
+			String inputText = Feeds.extractPageBodyText(pageUrl);
+			summarizeText(inputText, 5, req, resp);
+		} catch (Exception ex) {
+			resp.sendError(500, "Failed to get text from : " + pageUrl
+					+ " error=" + ex.getLocalizedMessage());
+		}
+	}
+
+	protected void summarizeText(String inputText, int sentenceCount,
+			HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+
 		String summaryText = null;
 		long start = System.currentTimeMillis();
 		long millis = 0;
 		try {
-			summaryText = Factory.getSummarizer().summarize(inputText, sentenceCount);
+			summaryText = Factory.getSummarizer().summarize(inputText,
+					sentenceCount);
 		} catch (Exception ex) {
 			throw new IOException("Failed to summarize", ex);
-		}finally {
+		} finally {
 			millis = System.currentTimeMillis() - start;
 		}
-		Summary summary = new Summary(inputText, summaryText, sentenceCount, millis);
+		Summary summary = new Summary(inputText, Feeds.escapeHtml(summaryText),
+				sentenceCount, millis);
 		req.setAttribute("summary", summary);
 		req.getRequestDispatcher("/text_summary.jsp").forward(req, resp);
 	}
-	protected void writeHello(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
 
-        ServletOutputStream out = resp.getOutputStream();
-        out.write("Hello Heroku".getBytes());
-        out.flush();
-        out.close();
+	protected void handleSummarizeTextCall(HttpServletRequest req,
+			HttpServletResponse resp) throws ServletException, IOException {
+
+		String inputText = req.getParameter("input_text");
+		int sentenceCount = Integer
+				.parseInt(req.getParameter("sentence_count"));
+		/*
+		 * String summaryText = null; long start = System.currentTimeMillis();
+		 * long millis = 0; try { summaryText =
+		 * Factory.getSummarizer().summarize(inputText, sentenceCount); } catch
+		 * (Exception ex) { throw new IOException("Failed to summarize", ex);
+		 * }finally { millis = System.currentTimeMillis() - start; } Summary
+		 * summary = new Summary(inputText, summaryText, sentenceCount, millis);
+		 * req.setAttribute("summary", summary);
+		 * req.getRequestDispatcher("/text_summary.jsp").forward(req, resp);
+		 */
+		summarizeText(inputText, sentenceCount, req, resp);
 	}
-	
-	
-    
+
+	protected void writeHello(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+
+		ServletOutputStream out = resp.getOutputStream();
+		out.write("Hello Heroku".getBytes());
+		out.flush();
+		out.close();
+	}
+
 }

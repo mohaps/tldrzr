@@ -16,6 +16,8 @@ import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.io.SyndFeedInput;
 import com.sun.syndication.io.XmlReader;
 
+import de.l3s.boilerpipe.extractors.ArticleExtractor;
+
 public final class Feeds {
 	public static class Item {
 		private String title;
@@ -69,7 +71,16 @@ public final class Feeds {
 		}
 
 	}
-
+	public static final String extractPageBodyText(String pageUrl) throws Exception {
+		String text = Words.replaceSmartQuotes(ArticleExtractor.INSTANCE.getText(new URL(pageUrl)));
+		return Jsoup.parse(text).body().text();
+	}
+	public static final String escapeHtml(String input) {
+		if(input == null || input.length() == 0){ return ""; }
+		else {
+			try { return org.apache.commons.lang3.StringEscapeUtils.escapeHtml4(input); } catch(Exception ex){ return input; }
+		}
+	}
 	public static final String fetchPageText(String pageUrl) throws Exception {
 		URL url = new URL(pageUrl);
 		URLConnection conn = url.openConnection();
@@ -125,7 +136,19 @@ public final class Feeds {
 			return totalRead;
 		}
 	}
-
+	public static final String getContentType(String feedUrl){
+		try {
+			URL url = new URL(feedUrl);
+		
+			HttpURLConnection connection = (HttpURLConnection)  url.openConnection();
+			connection.setRequestMethod("HEAD");
+			connection.connect();
+			try {
+			return connection.getContentType();
+			} finally { try { connection.disconnect(); } catch (Exception ex){} }
+			
+		} catch(Exception ex) { return null; }
+	}
 	public static final List<Item> fetchFeedItems(String feedUrl)
 			throws Exception {
 		URL url = new URL(feedUrl);
@@ -166,7 +189,7 @@ public final class Feeds {
 				for (SyndContent content : contents) {
 					if (content.getType().equalsIgnoreCase("html")) {
 						String html = Jsoup.parse(Words.replaceSmartQuotes(content.getValue())).text();
-						items.add(new Item(title,author,link,html));
+						items.add(new Item(title,author,link,escapeHtml(html)));
 					} else {
 						System.out.println(">> non html content type : "
 								+ content.getType());
