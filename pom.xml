@@ -82,12 +82,12 @@
 			<artifactId>nekohtml</artifactId>
 			<version>1.9.18</version>
 		</dependency>
-		<!-- Commons Lang -->
+		<!-- Commons Lang 
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.0</version>
-		</dependency>
+		</dependency> -->
 	</dependencies>
 	<repositories>
 		<repository>

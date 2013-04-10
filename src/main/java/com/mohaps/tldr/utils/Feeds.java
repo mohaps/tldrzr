@@ -74,13 +74,13 @@ public final class Feeds {
 	public static final String extractPageBodyText(String pageUrl) throws Exception {
 		String text = Words.replaceSmartQuotes(ArticleExtractor.INSTANCE.getText(new URL(pageUrl)));
 		return Jsoup.parse(text).body().text();
-	}
+	}/*
 	public static final String escapeHtml(String input) {
 		if(input == null || input.length() == 0){ return ""; }
 		else {
 			try { return org.apache.commons.lang3.StringEscapeUtils.escapeHtml4(input); } catch(Exception ex){ return input; }
 		}
-	}
+	}*/
 	public static final String fetchPageText(String pageUrl) throws Exception {
 		URL url = new URL(pageUrl);
 		URLConnection conn = url.openConnection();
@@ -189,7 +189,7 @@ public final class Feeds {
 				for (SyndContent content : contents) {
 					if (content.getType().equalsIgnoreCase("html")) {
 						String html = Jsoup.parse(Words.replaceSmartQuotes(content.getValue())).text();
-						items.add(new Item(title,author,link,escapeHtml(html)));
+						items.add(new Item(title,author,link,html));
 					} else {
 						System.out.println(">> non html content type : "
 								+ content.getType());

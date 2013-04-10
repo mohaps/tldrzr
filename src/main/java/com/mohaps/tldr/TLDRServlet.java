@@ -176,7 +176,7 @@ public class TLDRServlet extends HttpServlet {
 		} finally {
 			millis = System.currentTimeMillis() - start;
 		}
-		Summary summary = new Summary(inputText, Feeds.escapeHtml(summaryText),
+		Summary summary = new Summary(inputText, summaryText,
 				sentenceCount, millis);
 		req.setAttribute("summary", summary);
 		req.getRequestDispatcher("/text_summary.jsp").forward(req, resp);
