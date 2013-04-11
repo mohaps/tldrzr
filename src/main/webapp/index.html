@@ -59,10 +59,11 @@
 		
 		<div class="content">
 		<div class="content_section"><a name="samples"/>
+		<h2>Live Samples</h2>
 		<p>Some interesting summaries:
 			<ul>
-				<li><a href="http://tldrzr.herokuapp.com/tldr/?feed_url=http://www.businessinsider.com/why-marissa-mayer-bought-a-30m-startup-2013-4">Summary of Business Insider article on Summly acquisition by Yahoo!</a></li>
-				<li><a href="http://tldrzr.herokuapp.com/tldr/?feed_url=http://www.paulgraham.com/speak.html">Summary of PG's Essay on "Writing and Speaking"</a></li>
+				<li><a href="/tldr/?feed_url=http://www.businessinsider.com/why-marissa-mayer-bought-a-30m-startup-2013-4">Summary of Business Insider article on Summly acquisition by Yahoo!</a></li>
+				<li><a href="/tldr/?feed_url=http://www.paulgraham.com/speak.html">Summary of PG's Essay on "Writing and Speaking"</a></li>
 			</ul>
 		</p>
 		</div></div>
@@ -75,7 +76,18 @@
 		<p><strong>TL;DRzr</strong> is written in Java and uses <a href="http://jsoup.org">Jsoup</a> for html text scraping, <a href="http://rometools.jira.com">ROME</a> for RSS Feed parsing (which depends on <a href="http://jdom.org">JDOM</a>). The parsing of sentences and word tokenization uses <a href="http://opennlp.apache.org">OpenNLP</a>. It uses the Porter2 stemmer algorithm from <a href="http://snowball.tartarus.org/algorithms/english/stemmer.html">here</a> to process the tokens emitted by the tokenizer. The new summarize any url feature uses <a href="https://code.google.com/p/boilerpipe/">BoilerPipe</a></p>
 		</div>
 		</div>
-		<div class="footer"> <a name="credits"/>
+		
+		
+		<div class="content">
+		<div class="content_section"> <a name="credits"/>
+		TL;DRzr is a weekend project/quick hack demo created by <a href="mailto:mohaps@gmail.com">Saurav Mohapatra</a>. I wrote this as a fun weekend hack after reading about the <a href="/?feed_url=http://www.businessinsider.com/why-marissa-mayer-bought-a-30m-startup-2013-4">Summly acquisition by Yahoo!</a>. I had drunk too many Red Bulls and sleep was not too forthcoming. :) I always wished to try out Heroku and after a couple of hours of googling + coding, I put this together. 
+		
+		The algorithm is a keyword density based one. As this is my current hobby project, I shall work on improving the algorithm. I plan on opensourcing this codebase on <a href="http://github.com/mohaps">github.</a>.
+		</div>
+		</div>
+		
+		
+		<div class="footer"> 
 		<p>This is a weekend project/quick hack demo created by <a href="mailto:mohaps@gmail.com">Saurav Mohapatra</a>.</p>
 		<p>Still very much wet paint/work in progress. Comments/Crits are appreciated. Contact author via <a href="mailto:mohaps@gmail.com">mohaps AT gmail DOT com</a> or my <a href="http://mohaps.com">blog</a> or my twitter feed : <a href="http://twitter.com/mohaps">@mohaps</a></p>
 		</div>
