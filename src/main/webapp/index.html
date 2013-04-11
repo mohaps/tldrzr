@@ -31,6 +31,7 @@
 		<a href="/#whatisit">What is it?</a> | <a href="/#howitworks">How does it work?</a> | <a href="/#samples">Sample summaries</a> | <a href="/#credits">Who built this?</a> | <a href="https://news.ycombinator.com/item?id=5523538">Discuss on Hacker News</a></div>
 		</div>
 		<div class="demo_section">
+			<h2>Try it out!</h2>
 			<strong>1. Summarize a Feed (RSS/Atom) or a URL</strong>
 			<br>
 			<div><form name="tldr" method="GET" action="/tldr/" accept-charset="utf-8"><input type="text" style="width: 99%"name="feed_url" value="http://feeds.feedburner.com/TechCrunch/">
@@ -39,6 +40,7 @@
 			<p style="font-size: 10px;"><strong style="color: #ff1010;">[NEW] You can also put in a web url and it will fetch the page and try to summarize the page content.</strong></p>
 			<strong>2. Summarize Text</strong>
 			<br>
+			
 			<form name="tldr" method="post" action="/tldr/text" accept-charset="utf-8">
 			<div style="padding: 2px;">
 			<div class="textWrapper" align="center">
@@ -69,7 +71,7 @@
 		</div></div>
 		<div class="content">
 		<div class="content_section"> <a name="howitworks"/>
-			<h2>How it works?</h2>
+			<h2>How does it work?</h2>
 			<p>TL;DRzr uses an algorithm derived from <a href="http://classifier4j.sf.net">Classifier4J</a>. I used the basic algo from Classifier4j, optimized it and added some refinements.</p>
 			<p> The basic algorithm for summarization is like this. It first tokenizes the text into words and then calculates the top N most frequent words (discarding stop words and single occurence words). It then scans the sentences and gets the first N sentences which feature any or all of the most frequent words. The sentences are sorted based on first occurence in original text and concatenated to create the summary. The user has control over how long the generated summary should be in terms of sentence count.</p>
 		<a name="whatisit"/>
