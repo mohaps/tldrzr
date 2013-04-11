@@ -35,7 +35,15 @@
 			<strong>1. Summarize a Feed (RSS/Atom) or a URL</strong>
 			<br>
 			<div><form name="tldr" method="GET" action="/tldr/" accept-charset="utf-8"><input type="text" style="width: 99%"name="feed_url" value="http://feeds.feedburner.com/TechCrunch/">
-			<input type="submit" value="Summarize URL" style="margin: 2px;"></form></div>
+			Sentences : <select name="sentence_count">
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5" selected="true">5</option>
+				<option value="6">6</option>
+				<option value="7">7</option>
+			</select><input type="submit" value="Summarize URL" style="margin: 2px;"></form></div>
 			<p><small>Defaults to the TechCrunch Feed Burner RSS url. Hit the Summarize Feed button and you're good to go. This will fetch/parse/summarize the text, so be a bit patient. :) </small></p>
 			<p style="font-size: 10px;"><strong style="color: #ff1010;">[NEW] You can also put in a web url and it will fetch the page and try to summarize the page content.</strong></p>
 			<strong>2. Summarize Text</strong>
@@ -66,6 +74,8 @@
 			<ul>
 				<li><a href="/tldr/?feed_url=http://www.businessinsider.com/why-marissa-mayer-bought-a-30m-startup-2013-4">Summary of Business Insider article on Summly acquisition by Yahoo!</a></li>
 				<li><a href="/tldr/?feed_url=http://www.paulgraham.com/speak.html">Summary of PG's Essay on "Writing and Speaking"</a></li>
+				<li><a href="/tldr/?feed_url=http%3A%2F%2Fwww.paulgraham.com%2Fgrowth.html">Summary of PG's Essay on "Startup = Growth"</a></li>
+				
 			</ul>
 		</p>
 		</div></div>

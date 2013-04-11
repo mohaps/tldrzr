@@ -121,6 +121,9 @@ public class TLDRServlet extends HttpServlet {
 						.startsWith("text/plain"))) {
 			summarizePageText(feedUrl, req, resp);
 		} else {
+			String scStr = req.getParameter("sentence_count");
+			int sentenceCount = scStr == null?5:Integer.parseInt(scStr);
+			if(sentenceCount == 0){ sentenceCount = 5; }
 			List<SummarizedFeedEntry> entries = new ArrayList<SummarizedFeedEntry>();
 			long start = System.currentTimeMillis();
 			long millis = 0;
@@ -128,7 +131,7 @@ public class TLDRServlet extends HttpServlet {
 				List<Feeds.Item> feedItems = Feeds.fetchFeedItems(feedUrl);
 				for (Item item : feedItems) {
 					String summary = Factory.getSummarizer().summarize(
-							item.getText(), Defaults.SUMMARY_LENGTH);
+							item.getText(), sentenceCount);
 					// TODO: hook up keywords after stem word fix
 					Set<String> keywords = null; // Factory.getSummarizer().keywords(item.getText(),
 													// 10);
@@ -154,7 +157,10 @@ public class TLDRServlet extends HttpServlet {
 			HttpServletResponse resp) throws ServletException, IOException {
 		try {
 			String inputText = Feeds.extractPageBodyText(pageUrl);
-			summarizeText(inputText, 5, req, resp);
+			String scStr = req.getParameter("sentence_count");
+			int sentenceCount = scStr == null?5:Integer.parseInt(scStr);
+			if(sentenceCount == 0){ sentenceCount = 5; }
+			summarizeText(inputText, sentenceCount, req, resp);
 		} catch (Exception ex) {
 			resp.sendError(500, "Failed to get text from : " + pageUrl
 					+ " error=" + ex.getLocalizedMessage());

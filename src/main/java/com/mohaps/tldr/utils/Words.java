@@ -216,4 +216,9 @@ public final class Words {
 			System.out.println(">> Char Code "+(short)s.charAt(i)+" (0x"+Integer.toHexString((short)s.charAt(i))+") - {"+s.charAt(i)+"}");
 		}
 	}
+
+	//TODO: ugly hack. find something more efficient and elegant to replace well-known contractions with longer synonyms
+	public static String dotCorrection(String inputRaw) {
+		return inputRaw.replace("U.S.", "US").replace("U.K.", "UK").replace("Mass.", "Massachusetts").replace("Mr.", "Mr");
+	}
 }

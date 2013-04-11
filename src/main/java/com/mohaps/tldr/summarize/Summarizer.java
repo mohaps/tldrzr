@@ -18,21 +18,23 @@ public class Summarizer implements ISummarizer {
 		this.tokenizer = tokenizer;
 	}
 
-	public String summarize(final String input, int sentenceCount,
+	public String summarize(final String inputRaw, int sentenceCount,
 			int maxFrequentWords, boolean shouldIgnoreSingleOccurences)
 			throws Exception {
 
 		// for short bursts just return the input itself
-		if (input.length() < sentenceCount * Defaults.AVG_WORDS_PER_SENTENCE) {
-			return input;
+		if (inputRaw.length() < sentenceCount * Defaults.AVG_WORDS_PER_SENTENCE) {
+			return inputRaw;
 		} else {
 
 			// check summary cache for input hit
-			byte[] inputHash = sha1(input, ":sentences=", Integer.toString(sentenceCount));
+			byte[] inputHash = sha1(inputRaw, ":sentences=", Integer.toString(sentenceCount));
 			String cached = SummaryCache.instance().get(inputHash);
 			if (cached != null) {
 				return cached;
 			} else {
+				// change U.S. to US etc.
+				final String input = Words.dotCorrection(inputRaw);
 				// get top 100 most frequent words that are not stop words
 				Set<String> frequentWords = Words.getMostFrequent(input,
 						tokenizer, stopWords, maxFrequentWords,
