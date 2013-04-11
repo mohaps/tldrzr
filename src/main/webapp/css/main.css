@@ -75,7 +75,7 @@ fieldset {
  */
 
 textarea {
-    resize: vertical;
+    width:100%;
 }
 
 /* ==========================================================================
@@ -108,7 +108,12 @@ textarea {
     margin-right: 2px;
     padding: 5px;
 }
-
+.textWrapper
+{
+    border: 0px;
+    margin:5px 0;
+    padding:3px;
+}
 
 .feedEntryItem {
     padding-left: 6px;

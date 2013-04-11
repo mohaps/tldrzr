@@ -16,7 +16,7 @@
         <link rel="stylesheet" href="/css/normalize.css">
         <link rel="stylesheet" href="/css/main.css">
         <script src="/js/vendor/modernizr-2.6.2.min.js"></script>
-        <title>TL;DRizer - an algorithmic summary generation demo</title>
+        <title>TL;DRzr - an algorithmic summary generation demo</title>
     </head>
     <body>
         <!--[if lt IE 7]>
@@ -25,7 +25,10 @@
 		<div class="mypage">
         <!-- Add your site or application content here -->
         <div class="header">	
-		<h1>TL;DRizer - algorithmically generated summaries demo</h1>
+		<div align="center"><a href="/"><img src="/images/tldrzr_logo_header.png" alt="TL;DRzr - algorithmically generated summaries demo" style="border: 0px;"></a></div>
+		<div class="topnav" align="center" style="margin-top: 2px; padding-top: 4px; padding-bottom: 4px; margin-bottom: 6px; border-bottom: 1px dashed #434343; border-top: 1px dashed #434343">
+		<a href="/">back to TLDRizer</a> | <a href="/#whatisit">What is it?</a> | <a href="/#howitworks">How does it work?</a> | <a href="/#samples">Sample summaries</a> | <a href="/#credits">Who built this?</a> | <a href="https://news.ycombinator.com/item?id=5523538">Discuss on Hacker News</a></div>
+		</div>
 		</div>
 		<div><a href="/">back to TLDRizer</a></div>
 		<div class="content">
@@ -39,9 +42,11 @@
 			
 			
 		</div>
-		<div><a href="/">back to TLDRizer</a></div>
-		<div class="footer">
-		<p>This is a weekend project/hackday demo created by <a href="http://mohaps.com">mohaps AT gmail DOT com</a>. Still very much wetpaint/work in progress. Comments/crits are appreciated.</p>
+		<div><a href="/">back to TL;DRzr</a></div>
+		
+		<div class="footer"> <a name="credits"/>
+		<p>This is a weekend project/quick hack demo created by <a href="mailto:mohaps@gmail.com">Saurav Mohapatra</a>.</p>
+		<p>Still very much wet paint/work in progress. Comments/Crits are appreciated. Contact author via <a href="mailto:mohaps@gmail.com">mohaps AT gmail DOT com</a> or my <a href="http://mohaps.com">blog</a> or my twitter feed : <a href="http://twitter.com/mohaps">@mohaps</a></p>
 		</div>
 		</div>
 
