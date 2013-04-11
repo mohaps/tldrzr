@@ -28,7 +28,7 @@
         <div class="header">	
 		<div align="center"><a href="/"><img src="/images/tldrzr_logo_header.png" alt="TL;DRzr - algorithmically generated summaries demo" style="border: 0px;"></a></div>
 		<div class="topnav" align="center" style="margin-top: 2px; padding-top: 4px; padding-bottom: 4px; margin-bottom: 6px; border-bottom: 1px dashed #434343; border-top: 1px dashed #434343">
-		<a href="/">back to TLDRizer</a> | <a href="/#whatisit">What is it?</a> | <a href="/#howitworks">How does it work?</a> | <a href="/#samples">Sample summaries</a> | <a href="/#credits">Who built this?</a> | <a href="https://news.ycombinator.com/item?id=5523538">Discuss on Hacker News</a></div>
+		<a href="/"> Home</a> | <a href="/#whatisit">What is it?</a> | <a href="/#howitworks">How does it work?</a> | <a href="/#samples">Sample summaries</a> | <a href="/#credits">Who built this?</a> | <a href="https://news.ycombinator.com/item?id=5523538">Discuss on Hacker News</a></div>
 		</div>
 		</div>
 		<div class="content">
