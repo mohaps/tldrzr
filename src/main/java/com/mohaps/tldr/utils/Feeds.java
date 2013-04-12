@@ -49,12 +49,17 @@ import com.sun.syndication.io.SyndFeedInput;
 import com.sun.syndication.io.XmlReader;
 
 import de.l3s.boilerpipe.extractors.ArticleExtractor;
+
 /**
  * Kitchen sink utility class for dealing with Feeds
+ * 
  * @author mohaps
- *
+ * 
  */
 public final class Feeds {
+	static {
+		CookieHandler.setDefault(new CookieManager());
+	}
 	public static class Item {
 		private String title;
 		private String author;
@@ -62,8 +67,9 @@ public final class Feeds {
 		private String text;
 
 		public Item() {
-			
+
 		}
+
 		public Item(String title, String author, String link, String text) {
 			super();
 			this.title = title;
@@ -93,33 +99,64 @@ public final class Feeds {
 			return "Feeds.Item [title=" + title + ", author=" + author
 					+ ", link=" + link + "]";
 		}
+
 		public void setTitle(String title) {
 			this.title = title;
 		}
+
 		public void setAuthor(String author) {
 			this.author = author;
 		}
+
 		public void setLink(String link) {
 			this.link = link;
 		}
+
 		public void setText(String text) {
 			this.text = text;
 		}
 
 	}
-	public static final String extractPageBodyText(String pageUrl) throws Exception {
-		String text = Words.replaceSmartQuotes(ArticleExtractor.INSTANCE.getText(new URL(pageUrl)));
+
+	public static final String extractPageBodyText(String pageUrl)
+			throws Exception {
+		URL url = new URL(pageUrl);
+		URLConnection conn = url.openConnection();
+
+		if (url.getProtocol().startsWith("http")) {
+
+			if (((HttpURLConnection) conn).getResponseCode() == 303) {
+				String location = conn.getHeaderField("Location");
+				System.out.println(">> 303 Other : " + location);
+				return Words.replaceSmartQuotes(ArticleExtractor.INSTANCE
+						.getText(fetchPageText(location)));
+			}
+		}
+
+		String text = Words.replaceSmartQuotes(ArticleExtractor.INSTANCE
+				.getText(new URL(pageUrl)));
+		if (text == null || text.length() == 0) {
+			text = Words.replaceSmartQuotes(ArticleExtractor.INSTANCE
+					.getText(Feeds.fetchPageText(pageUrl)));
+		}
 		return Jsoup.parse(text).body().text();
 	}/*
-	public static final String escapeHtml(String input) {
-		if(input == null || input.length() == 0){ return ""; }
-		else {
-			try { return org.apache.commons.lang3.StringEscapeUtils.escapeHtml4(input); } catch(Exception ex){ return input; }
-		}
-	}*/
+	 * public static final String escapeHtml(String input) { if(input == null ||
+	 * input.length() == 0){ return ""; } else { try { return
+	 * org.apache.commons.lang3.StringEscapeUtils.escapeHtml4(input); }
+	 * catch(Exception ex){ return input; } } }
+	 */
+
 	public static final String fetchPageText(String pageUrl) throws Exception {
 		URL url = new URL(pageUrl);
 		URLConnection conn = url.openConnection();
+		if (url.getProtocol().startsWith("http")) {
+			if (((HttpURLConnection) conn).getResponseCode() == 303) {
+				String location = conn.getHeaderField("Location");
+				System.out.println(">> 303 Other : " + location);
+				return fetchPageText(location);
+			}
+		}
 		InputStream in = conn.getInputStream();
 		int contentLength = conn.getContentLength();
 		String contentType = conn.getContentType();
@@ -130,12 +167,13 @@ public final class Feeds {
 					+ " detected at page " + pageUrl + " is non-textual");
 		}
 		String encoding = conn.getContentEncoding();
-		Logger.getLogger("Feeds").log(Level.INFO, "!---- Encoding Detected : "+encoding);
-		if(encoding == null) {
+		Logger.getLogger("Feeds").log(Level.INFO,
+				"!---- Encoding Detected : " + encoding);
+		if (encoding == null) {
 			encoding = "ISO-8859-1";
 		}
 		if (contentLength >= 0) {
-			System.out.println(">> Reading "+contentLength+" bytes!!!");
+			System.out.println(">> Reading " + contentLength + " bytes!!!");
 			byte[] buf = new byte[contentLength];
 			int bread = readUpto(in, contentLength, buf, 0, buf.length);
 			return bread > 0 ? new String(buf, 0, bread, encoding)
@@ -172,24 +210,34 @@ public final class Feeds {
 			return totalRead;
 		}
 	}
-	public static final String getContentType(String feedUrl){
+
+	public static final String getContentType(String feedUrl) {
 		try {
 			URL url = new URL(feedUrl);
-		
-			HttpURLConnection connection = (HttpURLConnection)  url.openConnection();
+
+			HttpURLConnection connection = (HttpURLConnection) url
+					.openConnection();
 			connection.setRequestMethod("HEAD");
 			connection.connect();
 			try {
-			return connection.getContentType();
-			} finally { try { connection.disconnect(); } catch (Exception ex){} }
-			
-		} catch(Exception ex) { return null; }
+				return connection.getContentType();
+			} finally {
+				try {
+					connection.disconnect();
+				} catch (Exception ex) {
+				}
+			}
+
+		} catch (Exception ex) {
+			return null;
+		}
 	}
+
 	public static final List<Item> fetchFeedItems(String feedUrl)
 			throws Exception {
 		URL url = new URL(feedUrl);
 		SyndFeedInput input = new SyndFeedInput();
-		//XmlReader.setDefaultEncoding("ISO-8859-1");
+		// XmlReader.setDefaultEncoding("ISO-8859-1");
 		XmlReader xmlReader = new XmlReader(url);
 		SyndFeed feed = input.build(xmlReader);
 		ArrayList<Item> items = new ArrayList<Item>();
@@ -215,17 +263,23 @@ public final class Feeds {
 			List<SyndContent> contents = entry.getContents();
 			if (contents.size() == 0) {
 				String rawDesc;
-				if(entry.getDescription() == null) {
+				if (entry.getDescription() == null) {
 					rawDesc = fetchPageText(entry.getLink());
-				} else { rawDesc = entry.getDescription().getValue(); }
-				String desc = rawDesc != null ? Jsoup.parse(Words.replaceSmartQuotes(rawDesc)).text() : entry.getLink();
-				items.add(new Item(title,author,link,desc));
+				} else {
+					rawDesc = entry.getDescription().getValue();
+				}
+				String desc = rawDesc != null ? Jsoup.parse(
+						Words.replaceSmartQuotes(rawDesc)).text() : entry
+						.getLink();
+				items.add(new Item(title, author, link, desc));
 			} else {
 				// System.out.println(title);
 				for (SyndContent content : contents) {
 					if (content.getType().equalsIgnoreCase("html")) {
-						String html = Jsoup.parse(Words.replaceSmartQuotes(content.getValue())).text();
-						items.add(new Item(title,author,link,html));
+						String html = Jsoup.parse(
+								Words.replaceSmartQuotes(content.getValue()))
+								.text();
+						items.add(new Item(title, author, link, html));
 					} else {
 						System.out.println(">> non html content type : "
 								+ content.getType());
@@ -237,26 +291,12 @@ public final class Feeds {
 	}
 
 	public static final void main(String[] args) throws Exception {
-		String feedUrl = args.length > 1 ? args[1] : "http://blog.medusis.com/rss";
-		System.out.println("Fetching feed : "+feedUrl);
-		List<Item> feedItems = fetchFeedItems(feedUrl);
-		System.out.println(">> items found : "+feedItems.size());
-		long start = System.currentTimeMillis();
-		for(Item item : feedItems) {
-			System.out.println("\n"+item.title);
-			//String summary = Factory.getSummarizer().summarize(item.getText(), Defaults.SUMMARY_LENGTH);
-			//System.out.println("SUMMARY: \n"+summary);
-		}
-		long time1 = System.currentTimeMillis() - start;
-		start = System.currentTimeMillis();
-		for(Item item : feedItems) {
-			//System.out.println("\n"+item.title);
-			String summary = Factory.getSummarizer().summarize(item.getText(), Defaults.SUMMARY_LENGTH);
-			//System.out.println("SUMMARY: \n"+summary);
-		}
-		long time2 = System.currentTimeMillis() - start;
-		
-		System.out.println(">> First cycle : "+time1 +" Second Cycle : "+time2);
+		String feedUrl = args.length > 1 ? args[1]
+				: "http://www.nytimes.com/2013/04/12/world/asia/north-korea-may-have-nuclear-missile-capability-us-agency-says.html";
+		String html = Feeds.fetchPageText(feedUrl);
+		System.out.println(">> html : " + html);
+		String pageText = Feeds.extractPageBodyText(feedUrl);
+		System.out.println(pageText);
 	}
 
 }
