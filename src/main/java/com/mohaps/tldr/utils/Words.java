@@ -51,7 +51,12 @@ import java.io.*;
 
 import org.tartarus.snowball.SnowballStemmer;
 import org.tartarus.snowball.ext.englishStemmer;
-
+/**
+ * Utility methods to use for word operations
+ * Will try to use OpenNLP by default, failing that will fall back to regex based manipulation/extraction
+ * @author mohaps
+ *
+ */
 public final class Words {
 	private static SentenceModel SENTENCE_MODEL;
 	static {

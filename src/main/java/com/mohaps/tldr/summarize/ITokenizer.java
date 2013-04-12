@@ -32,6 +32,11 @@
  */
 package com.mohaps.tldr.summarize;
 
+/**
+ * tokenize a sentence into words
+ * @author mohaps
+ *
+ */
 public interface ITokenizer {
 	String[] tokenize(String input) throws Exception;
 }

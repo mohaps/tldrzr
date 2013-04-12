@@ -32,6 +32,11 @@
  */
 package com.mohaps.tldr.summarize;
 
+/**
+ * Stopwords filter
+ * @author mohaps
+ *
+ */
 public interface IStopWords {
 	boolean isStopWord(String word);
 }

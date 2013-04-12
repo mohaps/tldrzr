@@ -31,7 +31,11 @@
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package com.mohaps.tldr.summarize;
-
+/**
+ * Simple regex based tokenizer (used as a fallback)
+ * @author mohaps
+ *
+ */
 public class RegExTokenizer implements ITokenizer {
 	private String tokenRegEx;
 	public RegExTokenizer() {

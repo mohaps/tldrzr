@@ -33,9 +33,14 @@
 package com.mohaps.tldr.summarize;
 
 import java.util.*;
-
+/**
+ * A summary cache (psuedo-LRU, doesn't refresh keys)
+ * In a real world service, this would be in memcached/redis type store.
+ * @author mohaps
+ *
+ */
 public final class SummaryCache {
-	public static final int MAX_CACHE_SIZE = 20;
+	public static final int MAX_CACHE_SIZE = 40;
 	private static final SummaryCache sInstance = new SummaryCache();
 	public static final SummaryCache instance() { return sInstance; }
 	static final class Key {

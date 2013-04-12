@@ -49,7 +49,11 @@ import com.sun.syndication.io.SyndFeedInput;
 import com.sun.syndication.io.XmlReader;
 
 import de.l3s.boilerpipe.extractors.ArticleExtractor;
-
+/**
+ * Kitchen sink utility class for dealing with Feeds
+ * @author mohaps
+ *
+ */
 public final class Feeds {
 	public static class Item {
 		private String title;

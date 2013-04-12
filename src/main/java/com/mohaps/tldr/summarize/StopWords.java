@@ -34,7 +34,11 @@ package com.mohaps.tldr.summarize;
 
 import java.util.HashSet;
 import java.util.Set;
-
+/**
+ * Default set of stop words
+ * @author mohaps
+ *
+ */
 public class StopWords implements IStopWords {
 	public static final String[] STOPWORDS = new String[] { "a", "able",
 			"about", "across", "after", "all", "almost", "also", "am", "among",

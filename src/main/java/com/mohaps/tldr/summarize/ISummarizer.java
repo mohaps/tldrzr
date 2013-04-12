@@ -34,9 +34,30 @@ package com.mohaps.tldr.summarize;
 
 import java.util.Set;
 
+/**
+ * The summarizer interface
+ * @author mohaps
+ *
+ */
 public interface ISummarizer {
+	/**
+	 * summarize given text (upto sentenceCount sentences)
+	 * @param input - the input text to summarize
+	 * @param sentenceCount - macimum sentence length of the summary
+	 * @param maxFrequentWords - how many keywords to extract at the most
+	 * @param shouldIgnoreSingleOccurences - if we should consider words with occurence count 1
+	 * @return
+	 * @throws Exception
+	 */
 	String summarize(final String input, int sentenceCount, int maxFrequentWords, boolean shouldIgnoreSingleOccurences) throws Exception;
 	String summarize(String input, int sentenceCount) throws Exception;
 	
+	/**
+	 * WIP: extract keywords from a given input text
+	 * @param input
+	 * @param maxKeyWords - number of keywords to extract
+	 * @return
+	 * @throws Exception
+	 */
 	Set<String> keywords(final String input, int maxKeyWords) throws Exception;
 }

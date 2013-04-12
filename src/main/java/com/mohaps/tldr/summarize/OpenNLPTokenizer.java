@@ -41,6 +41,11 @@ import opennlp.tools.tokenize.Tokenizer;
 import opennlp.tools.tokenize.TokenizerME;
 import opennlp.tools.tokenize.TokenizerModel;
 
+/**
+ * Uses the OpenNLP tokenizer (falls back to RegExTokenizer if it can't find the model files for OpenNLP)
+ * @author mohaps
+ *
+ */
 public class OpenNLPTokenizer implements ITokenizer {
 
 	private static TokenizerModel TOKENIZER_MODEL;

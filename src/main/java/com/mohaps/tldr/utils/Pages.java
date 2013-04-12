@@ -33,7 +33,11 @@
 package com.mohaps.tldr.utils;
 
 import org.jsoup.Jsoup;
-
+/**
+ * Page text kitchen sink
+ * @author mohaps
+ *
+ */
 public final class Pages {
 	
 	public static final String getBodyTextFromHTML(String html) throws Exception {

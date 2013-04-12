@@ -40,7 +40,11 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import com.mohaps.tldr.utils.Words;
-
+/**
+ * The summarizer implementation (uses keyword density to create a summary)
+ * @author mohaps
+ *
+ */
 public class Summarizer implements ISummarizer {
 	private IStopWords stopWords;
 	private ITokenizer tokenizer;
@@ -59,7 +63,7 @@ public class Summarizer implements ISummarizer {
 			return inputRaw;
 		} else {
 
-			// check summary cache for input hit
+			// check summary cache for input hit (this optimizes repeated summarize calls)
 			byte[] inputHash = sha1(inputRaw, ":sentences=", Integer.toString(sentenceCount));
 			String cached = SummaryCache.instance().get(inputHash);
 			if (cached != null) {
