@@ -61,7 +61,10 @@ public class OpenNLPTokenizer implements ITokenizer {
 		} catch (IOException ex) {
 			System.err.println("Failed to load token model for OpenNLP. error = "+ex.getLocalizedMessage()+". Will fall back to regex based token parsing");
 			ex.printStackTrace();
-			FALLBACK = new RegExTokenizer();
+		} finally {
+			if(TOKENIZER_MODEL == null) {
+				FALLBACK = new RegExTokenizer();
+			}
 		}
 	}
 

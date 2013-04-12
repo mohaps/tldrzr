@@ -34,6 +34,11 @@ package com.mohaps.tldr;
 
 import java.util.List;
 
+/**
+ * A helper class representing a summarized for easy JSP rendering
+ * @author mohaps
+ *
+ */
 public class SummarizedFeed {
 	public SummarizedFeed(String url, List<SummarizedFeedEntry> entries, long millis) {
 		this.url = url;

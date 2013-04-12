@@ -34,6 +34,11 @@ package com.mohaps.tldr;
 
 import java.util.Set;
 
+/**
+ * An entry in a summarized feed for easy JSP rendering
+ * @author mohaps
+ *
+ */
 public class SummarizedFeedEntry {
 	
 	public SummarizedFeedEntry(String title, String author, String link,

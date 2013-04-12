@@ -54,6 +54,11 @@ import com.mohaps.tldr.utils.Feeds.Item;
 
 import com.google.gson.stream.JsonWriter;
 
+/**
+ * The web endpoint for TL;DRzr service/API
+ * @author mohaps
+ *
+ */
 public class TLDRServlet extends HttpServlet {
 
 	/**
@@ -93,13 +98,19 @@ public class TLDRServlet extends HttpServlet {
 		}
 	}
 
+	// show the home page
 	protected void showHomePage(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		resp.sendRedirect("/");
 	}
 
+	// handle an API call (currently it's just a post to /tldr/api/summarize that takes input_text and sentence_count (default: 5)
 	protected void handleAPICall(HttpServletRequest req,
 			HttpServletResponse resp) throws ServletException, IOException {
+		if(req.getContentLength() > Defaults.MAX_API_INPUT_LENGTH) {
+			resp.sendError(400, "Request is over API limit of "+Defaults.MAX_API_INPUT_LENGTH+" bytes");
+			return;
+		}
 		String pathInfo = req.getPathInfo();
 		if (pathInfo.startsWith("/api/summarize")) {
 			String inputText = req.getParameter("input_text");
@@ -109,11 +120,15 @@ public class TLDRServlet extends HttpServlet {
 				sentenceCount = Defaults.MAX_SENTENCES;
 			}
 			String summaryText = null;
+			
 			long start = System.currentTimeMillis();
 			long millis = 0;
 			try {
+				if(inputText == null || inputText.length() == 0){ summaryText = ""; }
+				else {
 				summaryText = Factory.getSummarizer().summarize(inputText,
 						sentenceCount);
+				}
 			} catch (Exception ex) {
 				throw new IOException("Failed to summarize", ex);
 			} finally {
@@ -136,6 +151,7 @@ public class TLDRServlet extends HttpServlet {
 		}
 	}
 
+	// summarize a feed from a url (if the url is non feed, then try to extract article text)
 	protected void handleSummarizeFeedCall(HttpServletRequest req,
 			HttpServletResponse resp) throws ServletException, IOException {
 
@@ -143,6 +159,8 @@ public class TLDRServlet extends HttpServlet {
 		summarizeFeedUrl(feedUrl, req, resp);
 	}
 
+
+	// summarize a feed from a url (if the url is non feed, then try to extract article text)
 	protected void summarizeFeedUrl(String feedUrl, HttpServletRequest req,
 			HttpServletResponse resp) throws ServletException, IOException {
 
@@ -154,8 +172,8 @@ public class TLDRServlet extends HttpServlet {
 			summarizePageText(feedUrl, req, resp);
 		} else {
 			String scStr = req.getParameter("sentence_count");
-			int sentenceCount = scStr == null?5:Integer.parseInt(scStr);
-			if(sentenceCount == 0){ sentenceCount = 5; }
+			int sentenceCount = scStr == null?Defaults.MAX_SENTENCES:Integer.parseInt(scStr);
+			if(sentenceCount <= 0){ sentenceCount = Defaults.MAX_SENTENCES; }
 			List<SummarizedFeedEntry> entries = new ArrayList<SummarizedFeedEntry>();
 			long start = System.currentTimeMillis();
 			long millis = 0;
@@ -164,9 +182,11 @@ public class TLDRServlet extends HttpServlet {
 				for (Item item : feedItems) {
 					String summary = Factory.getSummarizer().summarize(
 							item.getText(), sentenceCount);
-					// TODO: hook up keywords after stem word fix
-					Set<String> keywords = null; // Factory.getSummarizer().keywords(item.getText(),
-													// 10);
+					// TODO: (mohaps) hook up keywords after stem word fix (currently working on this)
+					// might have to wait till I get topic modelling integrated till I turn this back on
+
+					//Set<String>  keywords = Factory.getSummarizer().keywords(item.getText(), 10);
+					Set<String> keywords = null; 
 					SummarizedFeedEntry entry = new SummarizedFeedEntry(
 							item.getTitle(), item.getAuthor(), item.getLink(),
 							item.getText(), summary, keywords);
@@ -185,6 +205,8 @@ public class TLDRServlet extends HttpServlet {
 		}
 	}
 
+
+	// summarize a page text from a url 
 	protected void summarizePageText(String pageUrl, HttpServletRequest req,
 			HttpServletResponse resp) throws ServletException, IOException {
 		try {
@@ -199,6 +221,7 @@ public class TLDRServlet extends HttpServlet {
 		}
 	}
 
+	// summarize supplied text
 	protected void summarizeText(String inputText, int sentenceCount,
 			HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -220,32 +243,14 @@ public class TLDRServlet extends HttpServlet {
 		req.getRequestDispatcher("/text_summary.jsp").forward(req, resp);
 	}
 
+	// handle a summarize text call from the web
 	protected void handleSummarizeTextCall(HttpServletRequest req,
 			HttpServletResponse resp) throws ServletException, IOException {
 
 		String inputText = req.getParameter("input_text");
 		int sentenceCount = Integer
 				.parseInt(req.getParameter("sentence_count"));
-		/*
-		 * String summaryText = null; long start = System.currentTimeMillis();
-		 * long millis = 0; try { summaryText =
-		 * Factory.getSummarizer().summarize(inputText, sentenceCount); } catch
-		 * (Exception ex) { throw new IOException("Failed to summarize", ex);
-		 * }finally { millis = System.currentTimeMillis() - start; } Summary
-		 * summary = new Summary(inputText, summaryText, sentenceCount, millis);
-		 * req.setAttribute("summary", summary);
-		 * req.getRequestDispatcher("/text_summary.jsp").forward(req, resp);
-		 */
 		summarizeText(inputText, sentenceCount, req, resp);
-	}
-
-	protected void writeHello(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-
-		ServletOutputStream out = resp.getOutputStream();
-		out.write("Hello Heroku".getBytes());
-		out.flush();
-		out.close();
 	}
 
 }

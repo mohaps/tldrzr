@@ -32,6 +32,11 @@
  */
 package com.mohaps.tldr;
 
+/**
+ * A summary of supplied text for easy JSP rendering
+ * @author mohaps
+ *
+ */
 public class Summary {
 	public Summary(){}
 	public Summary(String text, String summary, int sentence_count, long millis) {

@@ -32,6 +32,11 @@
  */
 package com.mohaps.tldr.summarize;
 
+/**
+ * Default values and constants
+ * @author mohaps
+ *
+ */
 public final class Defaults {
 	public static final int MAX_SENTENCES = 4;
 	public static final int MAX_MOST_FREQUENT_WORDS = 20;
@@ -46,4 +51,5 @@ public final class Defaults {
 	public static final boolean SHOULD_IGNORE_SINGLE_OCCURENCES = true;
 	public static final String[] BLANK_STRING_ARRAY = new String[0];
 	public static final int SUMMARY_LENGTH = 4;
+	public static final int MAX_API_INPUT_LENGTH = 4*1024;
 }
