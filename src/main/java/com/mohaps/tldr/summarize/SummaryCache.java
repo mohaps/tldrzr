@@ -57,6 +57,10 @@ public final class SummaryCache {
 	private Map<Key, String> cache = new LinkedHashMap<Key, String>();
 	public void put(byte[] textHash, String summary) {
 		cache.put(new Key(textHash), summary);
+		//very crude psuedo-LRU style eviction
+		//since we're not updating the keys on access
+		//it just evicts the oldest added one 
+		//TODO: make it full LRU
 		if(cache.size() > MAX_CACHE_SIZE + 10) {
 			while(cache.size() > MAX_CACHE_SIZE){
 				cache.remove(cache.keySet().iterator().next());
@@ -64,7 +68,7 @@ public final class SummaryCache {
 		}
 	}
 	public String get(byte[] inputHash) {
-		
+		//TODO: should update key order here
 		return cache.get(new Key(inputHash));
 	}
 }
