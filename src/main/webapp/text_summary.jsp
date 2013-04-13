@@ -71,7 +71,9 @@
 						<small>Generated in ${summary.millis} milliseconds. <c:if
 								test="${summary_url != null}">Read more : <a
 									href="<c:out value="${summary_url}"/>"><c:out
-										value="${summary_url}" /></a>
+										value="${summary_url}" /></a> [ <a
+									href="<c:out value="/tldr/?feed_url=${summary_url}"/>">Summary
+									Link</a> ]
 							</c:if>
 						</small>
 					</p>
