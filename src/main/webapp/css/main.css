@@ -96,6 +96,7 @@ textarea {
 .mypage {
     padding: 3px;
     background-color: rgb(255,255,255);
+	max-width: 800px;
 }
 .footer {
     font-size: 10px;
@@ -120,7 +121,6 @@ textarea {
     padding-right: 6px;
     padding-top: 2px;
     padding-bottom: 2px;
-    border: 1px dotted;
 }
 
 .feedEntryTitle {
@@ -131,15 +131,15 @@ textarea {
 }
 .feedEntryLink{
     font-style: italic;
-    font-size: 9px;
+    font-size: 0.8em;
     text-align: right;
 }
 .feedEntrySummary {
-    font-size: 11px;
+    font-size: 1em;
     font-style: italic;
 }
 .feedEntryText {
-    font-size: 11px;
+    font-size: 1em;
 }
 
 

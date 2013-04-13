@@ -11,139 +11,247 @@
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width">
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title></title>
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width">
 
-        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
-        <link rel="stylesheet" href="css/normalize.css">
-        <link rel="stylesheet" href="css/main.css">
-        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
-        <title>TL;DRzr - an algorithmic summary generation demo</title>
-    </head>
-    <body>
-        <!--[if lt IE 7]>
+<link rel="stylesheet" href="css/normalize.css">
+<link rel="stylesheet" href="css/main.css">
+<script src="js/vendor/modernizr-2.6.2.min.js"></script>
+<title>TL;DRzr - an algorithmic summary generation demo</title>
+</head>
+<body>
+	<!--[if lt IE 7]>
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
         <![endif]-->
-		<div class="mypage">
-        <!-- Add your site or application content here -->
-        <div class="header">	
-		<div align="center"><a href="/"><img src="/images/tldrzr_logo_header.png" alt="TL;DRzr - algorithmically generated summaries demo" style="border: 0px;"></a></div>
-		<div class="topnav" align="center" style="margin-top: 2px; padding-top: 4px; padding-bottom: 4px; margin-bottom: 6px; border-bottom: 1px dashed #434343; border-top: 1px dashed #434343">
-		<a href="/#whatisit">What is it?</a> | <a href="/#howitworks">How does it work?</a> | <a href="http://github.com/mohaps/tldrzr">Source@Github</a> | </a><a href="/#samples">Sample summaries</a> | <a href="/#credits">Who built this?</a> | <a href="https://news.ycombinator.com/item?id=5535827">Discuss on Hacker News</a></div>
-		</div>
-		<div class="demo_section">
-			<h2>Try it out!</h2>
-			<strong>1. Summarize a Feed (RSS/Atom) or a URL</strong>
-			<br>
-			<div><form name="tldr" method="POST" action="/tldr/feed" accept-charset="utf-8"><input type="text" style="width: 99%"name="feed_url" value="http://feeds.feedburner.com/TechCrunch/">
-			Sentences : <select name="sentence_count">
-				<option value="1">1</option>
-				<option value="2">2</option>
-				<option value="3">3</option>
-				<option value="4">4</option>
-				<option value="5">5</option>
-				<option value="6">6</option>
-				<option value="7" selected="true">7</option>
-				<option value="8">8</option>
-				<option value="9">9</option>
-				<option value="10">10</option>
-			</select><input type="submit" value="Summarize URL" style="margin: 2px;"></form></div>
-			<p><small>Defaults to the TechCrunch Feed Burner RSS url. Hit the Summarize Feed button and you're good to go. This will fetch/parse/summarize the text, so be a bit patient. :) </small></p>
-			<p style="font-size: 10px;"><strong style="color: #ff1010;">[NEW] You can also put in a web url and it will fetch the page and try to summarize the page content.</strong></p>
-			<strong>2. Summarize Text</strong>
-			<br>
-			
-			<form name="tldr" method="post" action="/tldr/text" accept-charset="utf-8">
-			<div style="padding: 2px;">
-			<div class="textWrapper" align="center">
-				<textarea rows="15" name="input_text" style="width: 99%; padding: 2px;">Enter text to summarize here. </textarea>
+	<div align="center">
+		<div class="mypage" align="left">
+			<!-- Add your site or application content here -->
+			<div class="header">
+				<div align="center">
+					<a href="/"><img src="/images/tldrzr_logo_header.png"
+						alt="TL;DRzr - algorithmically generated summaries demo"
+						style="border: 0px;"></a>
+				</div>
+				<div class="topnav" align="center"
+					style="margin-top: 2px; padding-top: 4px; padding-bottom: 4px; margin-bottom: 6px; border-bottom: 1px dashed #434343; border-top: 1px dashed #434343">
+					<a href="/#whatisit">What is it?</a> | <a href="/#howitworks">How
+						does it work?</a> | <a href="http://github.com/mohaps/tldrzr">Source@Github</a>
+					| <a href="https://github.com/mohaps/tldrzr/commits/master">Commit
+						Log</a> | <a href="/#samples">Sample summaries</a> | <a
+						href="/#credits">Who built this?</a> | <a
+						href="https://news.ycombinator.com/item?id=5535827">Discuss on
+						Hacker News</a>
+				</div>
 			</div>
-			</div>Sentences : <select name="sentence_count">
-				<option value="1">1</option>
-				<option value="2">2</option>
-				<option value="3">3</option>
-				<option value="4">4</option>
-				<option value="5">5</option>
-				<option value="6">6</option>
-				<option value="7" selected="true">7</option>
-				<option value="8">8</option>
-				<option value="9">9</option>
-				<option value="10">10</option>
-			</select>
-			<input type="submit" value="Summarize Text"></form>
-			<p><small>If cutting/pasting, try to use the paste as plaintext option</small></p>
-		</div>
-		
-		<div class="content">
-		<div class="content_section"><a name="samples"/>
-		<h2>Live Samples</h2>
-		<p>Some interesting summaries:
-			<ul>
-				<li><a href="/tldr/?feed_url=http%3A%2F%2Fwww.businessinsider.com%2Fwhy-marissa-mayer-bought-a-30m-startup-2013-4&sentence_count=10">Summary of Business Insider article on Summly acquisition by Yahoo!</a></li>
-				<li><a href="/tldr/?feed_url=http%3A%2F%2Fwww.paulgraham.com%2Fspeak.html&sentence_count=10">Summary of PG's Essay on "Writing and Speaking"</a></li>
-				<li><a href="/tldr/?feed_url=http%3A%2F%2Fwww.paulgraham.com%2Fgrowth.html&sentence_count=10">Summary of PG's Essay on "Startup = Growth"</a></li>
-				
-			</ul>
-		</p>
-		</div></div>
-		<div class="content">
-		<div class="content_section"> <a name="whatsnew"/>
-		<h2>What's New?</h2>
-		<ul>
-			<li>2013-04-11 - TL;DRzr is now opensource. (<a href="https://news.ycombinator.com/item?id=5535827">Hacker News announcement</a>). (<a href="http://github.com/mohaps/tldrzr">tldrzr@github</a>) </li>
-			<li>2013-04-11 - OpenNLP based tokenizer is now online. Earlier, due to a bug in the code it was always falling back to the Regular Expression based tokenizer. This improves sentence quality.</li>
-			<li>2013-04-10 - Thanks to BoilerPipe, now the url passed to TL;DRzr doesn't have to be a feed url only. It now can extract parse general web page content.</li>
-			<li>2013-04-09 - Summarized URL's can now be saved as links of the form /tldr/?feed_url=url_goes_here. </li>
-			<li>2013-04-09 - There's a POST based API to summarize text (upto 4MB) via a HTTP POST to /tldr/api/summarize. The parameters are input_text (mandatory) and sentence_count (optional: defaults to 5). This is running on a single heroku dyno. So feel free to use this API, but please be gentle. :) </li>
-		</ul></div>
-		</div>
-		
-		<div class="content">
-		<div class="content_section"> <a name="howitworks"/>
-			<h2>How does it work?</h2>
-			<p>TL;DRzr uses an algorithm derived from <a href="http://classifier4j.sf.net">Classifier4J</a>. I used the basic algo from Classifier4j, optimized it and added some refinements.</p>
-			<p> The basic algorithm for summarization is like this. It first tokenizes the text into words and then calculates the top N most frequent words (discarding stop words and single occurence words). It then scans the sentences and gets the first N sentences which feature any or all of the most frequent words. The sentences are sorted based on first occurence in original text and concatenated to create the summary. The user has control over how long the generated summary should be in terms of sentence count.</p>
-			<a name="whatisit"/>
-			<p><strong>TL;DRzr</strong> is written in Java and uses <a href="http://jsoup.org">Jsoup</a> for html text scraping, <a href="http://rometools.jira.com">ROME</a> for RSS Feed parsing (which depends on <a href="http://jdom.org">JDOM</a>). The parsing of sentences and word tokenization uses <a href="http://opennlp.apache.org">OpenNLP</a>. It uses the Porter2 stemmer algorithm from <a href="http://snowball.tartarus.org/algorithms/english/stemmer.html">here</a> to process the tokens emitted by the tokenizer. The new summarize any url feature uses <a href="https://code.google.com/p/boilerpipe/">BoilerPipe</a></p>
-		</div>
-		</div>
-		
-		
-		<div class="content">
-		<div class="content_section"> <a name="credits"/>
-		<h2>Credits</h2>
-		
-		<p>TL;DRzr is a weekend project/quick hack demo created by <a href="mailto:mohaps@gmail.com">Saurav Mohapatra</a>. I wrote this as a fun weekend hack after reading about the <a href="/tldr/?feed_url=http://www.businessinsider.com/why-marissa-mayer-bought-a-30m-startup-2013-4">Summly acquisition by Yahoo!</a>. I had drunk too many Red Bulls and sleep was not too forthcoming. :) I always wished to try out Heroku and after a couple of hours of googling + coding, I put this together. </p>
-		
-		<p>The algorithm is a keyword density based one. As this is my current hobby project, I shall work on improving the algorithm. I plan on opensourcing this codebase on <a href="http://github.com/mohaps">github.</a>.</p>
-		
-		</div>
-		</div>
-		
-		
-		<div class="footer"> 
-		<p>This is a weekend project/quick hack demo created by <a href="mailto:mohaps@gmail.com">Saurav Mohapatra</a>.</p>
-		<p>Still very much wet paint/work in progress. Comments/Crits are appreciated. Contact author via <a href="mailto:mohaps@gmail.com">mohaps AT gmail DOT com</a> or my <a href="http://mohaps.com">blog</a> or my twitter feed : <a href="http://twitter.com/mohaps">@mohaps</a></p>
-		</div>
+			<div class="demo_section">
+				<h2>Try it out!</h2>
+				<strong>1. Summarize a Feed (RSS/Atom) or a URL</strong> <br>
+				<div>
+					<form name="tldr" method="POST" action="/tldr/feed"
+						accept-charset="utf-8">
+						<input type="text" style="width: 99%" name="feed_url"
+							value="http://feeds.feedburner.com/TechCrunch/">
+						Sentences : <select name="sentence_count">
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7" selected="true">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+							<option value="10">10</option>
+						</select><input type="submit" value="Summarize URL" style="margin: 2px;">
+					</form>
+				</div>
+				<p>
+					<small>Defaults to the TechCrunch Feed Burner RSS url. Hit
+						the Summarize Feed button and you're good to go. This will
+						fetch/parse/summarize the text, so be a bit patient. :) </small>
+				</p>
+				<p style="font-size: 10px;">
+					<strong style="color: #ff1010;">[NEW] You can also put in
+						a web url and it will fetch the page and try to summarize the page
+						content.</strong>
+				</p>
+				<strong>2. Summarize Text</strong> <br>
+
+				<form name="tldr" method="post" action="/tldr/text"
+					accept-charset="utf-8">
+					<div style="padding: 2px;">
+						<div class="textWrapper" align="center">
+							<textarea rows="15" name="input_text"
+								style="width: 99%; padding: 2px;">Enter text to summarize here. </textarea>
+						</div>
+					</div>
+					Sentences : <select name="sentence_count">
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+						<option value="7" selected="true">7</option>
+						<option value="8">8</option>
+						<option value="9">9</option>
+						<option value="10">10</option>
+					</select> <input type="submit" value="Summarize Text">
+				</form>
+				<p>
+					<small>If cutting/pasting, try to use the paste as
+						plaintext option</small>
+				</p>
+			</div>
+
+			<div class="content">
+				<div class="content_section">
+					<a name="samples" />
+					<h2>Live Samples</h2>
+					<p>Some interesting summaries:
+					<ul>
+						<li><a
+							href="/tldr/?feed_url=http%3A%2F%2Fwww.businessinsider.com%2Fwhy-marissa-mayer-bought-a-30m-startup-2013-4&sentence_count=10">Summary
+								of Business Insider article on Summly acquisition by Yahoo!</a></li>
+						<li><a
+							href="/tldr/?feed_url=http%3A%2F%2Fwww.paulgraham.com%2Fspeak.html&sentence_count=10">Summary
+								of PG's Essay on "Writing and Speaking"</a></li>
+						<li><a
+							href="/tldr/?feed_url=http%3A%2F%2Fwww.paulgraham.com%2Fgrowth.html&sentence_count=10">Summary
+								of PG's Essay on "Startup = Growth"</a></li>
+
+					</ul>
+					</p>
+				</div>
+			</div>
+			<div class="content">
+				<div class="content_section">
+					<a name="whatsnew" />
+					<h2>What's New?</h2>
+					<ul>
+						<li>2013-04-11 - TL;DRzr is now opensource. (<a
+							href="https://news.ycombinator.com/item?id=5535827">Hacker
+								News announcement</a>). (<a href="http://github.com/mohaps/tldrzr">tldrzr@github</a>)
+						</li>
+						<li>2013-04-11 - OpenNLP based tokenizer is now online.
+							Earlier, due to a bug in the code it was always falling back to
+							the Regular Expression based tokenizer. This improves sentence
+							quality.</li>
+						<li>2013-04-10 - Thanks to BoilerPipe, now the url passed to
+							TL;DRzr doesn't have to be a feed url only. It now can extract
+							parse general web page content.</li>
+						<li>2013-04-09 - Summarized URL's can now be saved as links
+							of the form /tldr/?feed_url=url_goes_here.</li>
+						<li>2013-04-09 - There's a POST based API to summarize text
+							(upto 4MB) via a HTTP POST to /tldr/api/summarize. The parameters
+							are input_text (mandatory) and sentence_count (optional: defaults
+							to 5). This is running on a single heroku dyno. So feel free to
+							use this API, but please be gentle. :)</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="content">
+				<div class="content_section">
+					<a name="howitworks" />
+					<h2>How does it work?</h2>
+					<p>
+						TL;DRzr uses an algorithm derived from <a
+							href="http://classifier4j.sf.net">Classifier4J</a>. I used the
+						basic algo from Classifier4j, optimized it and added some
+						refinements.
+					</p>
+					<p>The basic algorithm for summarization is like this. It first
+						tokenizes the text into words and then calculates the top N most
+						frequent words (discarding stop words and single occurence words).
+						It then scans the sentences and gets the first N sentences which
+						feature any or all of the most frequent words. The sentences are
+						sorted based on first occurence in original text and concatenated
+						to create the summary. The user has control over how long the
+						generated summary should be in terms of sentence count.</p>
+					<a name="whatisit" />
+					<p>
+						<strong>TL;DRzr</strong> is written in Java and uses <a
+							href="http://jsoup.org">Jsoup</a> for html text scraping, <a
+							href="http://rometools.jira.com">ROME</a> for RSS Feed parsing
+						(which depends on <a href="http://jdom.org">JDOM</a>). The parsing
+						of sentences and word tokenization uses <a
+							href="http://opennlp.apache.org">OpenNLP</a>. It uses the Porter2
+						stemmer algorithm from <a
+							href="http://snowball.tartarus.org/algorithms/english/stemmer.html">here</a>
+						to process the tokens emitted by the tokenizer. The new summarize
+						any url feature uses <a
+							href="https://code.google.com/p/boilerpipe/">BoilerPipe</a>
+					</p>
+				</div>
+			</div>
+
+
+			<div class="content">
+				<div class="content_section">
+					<a name="credits" />
+					<h2>Credits</h2>
+
+					<p>
+						TL;DRzr is a weekend project/quick hack demo created by <a
+							href="mailto:mohaps@gmail.com">Saurav Mohapatra</a>. I wrote this
+						as a fun weekend hack after reading about the <a
+							href="/tldr/?feed_url=http://www.businessinsider.com/why-marissa-mayer-bought-a-30m-startup-2013-4">Summly
+							acquisition by Yahoo!</a>. I had drunk too many Red Bulls and sleep
+						was not too forthcoming. :) I always wished to try out Heroku and
+						after a couple of hours of googling + coding, I put this together.
+					</p>
+
+					<p>
+						The algorithm is a keyword density based one. As this is my
+						current hobby project, I shall work on improving the algorithm. I
+						plan on opensourcing this codebase on <a
+							href="http://github.com/mohaps">github.</a>.
+					</p>
+
+				</div>
+			</div>
+
+
+			<div class="footer">
+				<p>
+					This is a weekend project/quick hack demo created by <a
+						href="mailto:mohaps@gmail.com">Saurav Mohapatra</a>.
+				</p>
+				<p>
+					Still very much wet paint/work in progress. Comments/Crits are
+					appreciated. Contact author via <a href="mailto:mohaps@gmail.com">mohaps
+						AT gmail DOT com</a> or my <a href="http://mohaps.com">blog</a> or my
+					twitter feed : <a href="http://twitter.com/mohaps">@mohaps</a>
+				</p>
+			</div>
 		</div>
 
-        <!--  script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	</div>
+
+	<!--  script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
         <script src="js/plugins.js"></script>
         <script src="js/main.js"></script-->
 
-        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-        <script>
-            var _gaq=[['_setAccount','UA-1728759-8'],['_trackPageview']];
-            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-            g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-            s.parentNode.insertBefore(g,s)}(document,'script'));
-        </script>
-    </body>
+	<!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+	<script>
+		var _gaq = [ [ '_setAccount', 'UA-1728759-8' ], [ '_trackPageview' ] ];
+		(function(d, t) {
+			var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
+			g.src = ('https:' == location.protocol ? '//ssl' : '//www')
+					+ '.google-analytics.com/ga.js';
+			s.parentNode.insertBefore(g, s)
+		}(document, 'script'));
+	</script>
+</body>
 </html>

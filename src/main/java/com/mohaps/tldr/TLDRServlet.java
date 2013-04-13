@@ -215,7 +215,7 @@ public class TLDRServlet extends HttpServlet {
 			String scStr = req.getParameter("sentence_count");
 			int sentenceCount = scStr == null?5:Integer.parseInt(scStr);
 			if(sentenceCount == 0){ sentenceCount = 5; }
-			summarizeText(inputText, sentenceCount, req, resp);
+			summarizeText(pageUrl, inputText, sentenceCount, req, resp);
 		} catch (Exception ex) {
 			resp.sendError(500, "Failed to get text from : " + pageUrl
 					+ " error=" + ex.getLocalizedMessage());
@@ -223,7 +223,7 @@ public class TLDRServlet extends HttpServlet {
 	}
 
 	// summarize supplied text
-	protected void summarizeText(String inputText, int sentenceCount,
+	protected void summarizeText(String inputUrl, String inputText, int sentenceCount,
 			HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
@@ -241,6 +241,9 @@ public class TLDRServlet extends HttpServlet {
 		Summary summary = new Summary(inputText, summaryText,
 				sentenceCount, millis);
 		req.setAttribute("summary", summary);
+		if(inputUrl != null) {
+			req.setAttribute("summary_url", inputUrl);
+		}
 		req.getRequestDispatcher("/text_summary.jsp").forward(req, resp);
 	}
 
@@ -251,7 +254,7 @@ public class TLDRServlet extends HttpServlet {
 		String inputText = req.getParameter("input_text");
 		int sentenceCount = Integer
 				.parseInt(req.getParameter("sentence_count"));
-		summarizeText(inputText, sentenceCount, req, resp);
+		summarizeText(null, inputText, sentenceCount, req, resp);
 	}
 
 }
