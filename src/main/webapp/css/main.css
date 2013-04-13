@@ -98,8 +98,11 @@ textarea {
     background-color: rgb(255,255,255);
 	max-width: 800px;
 }
+.topnav {
+	font-size: 0.7em;
+}
 .footer {
-    font-size: 10px;
+    font-size: 0.7em;
 }
 .content_section {
     border: 1px dotted;
