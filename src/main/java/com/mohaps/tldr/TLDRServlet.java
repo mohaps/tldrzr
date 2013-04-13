@@ -166,7 +166,6 @@ public class TLDRServlet extends HttpServlet {
 			HttpServletResponse resp) throws ServletException, IOException {
 
 		String contentType = Feeds.getContentType(feedUrl);
-		System.out.println(" >> Content Type ("+feedUrl+") -> "+contentType);
 		if (contentType != null
 				&& (contentType.startsWith("text/html") || contentType
 						.startsWith("text/plain"))) {
