@@ -52,7 +52,7 @@
 						Log</a> | <a href="/#samples">Sample summaries</a> | <a
 						href="/#credits">Who built this?</a> | <a
 						href="https://news.ycombinator.com/item?id=5535827">Discuss on
-						Hacker News</a> | <a href="http://twitter.com/tldrzr">Follow us on twitter</a>
+						Hacker News</a> | <a href="http://twitter.com/tldrzr">Follow us on twitter</a> | <a href="http://xtractor.herokuapp.com">You might also like...</a>
 				</div>
 
 			</div>
