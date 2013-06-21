@@ -63,7 +63,7 @@ TL;DRzr uses an algorithm derived from Classifier4J. I used the basic algo from 
 
 The basic algorithm for summarization is like this. It first tokenizes the text into words and then calculates the top N most frequent words (discarding stop words and single occurence words). It then scans the sentences and gets the first N sentences which feature any or all of the most frequent words. The sentences are sorted based on first occurence in original text and concatenated to create the summary. The user has control over how long the generated summary should be in terms of sentence count.
 
-For implementation details a good starting point is the [Summarizer][https://github.com/mohaps/tldrzr/blob/master/src/main/java/com/mohaps/tldr/summarize/Summarizer.java] class.
+For implementation details a good starting point is the [Summarizer]:https://github.com/mohaps/tldrzr/blob/master/src/main/java/com/mohaps/tldr/summarize/Summarizer.java class.
 
 TL;DRzr is written in Java and uses Jsoup for html text scraping, ROME for RSS Feed parsing (which depends on JDOM). The parsing of sentences and word tokenization uses OpenNLP. It uses the Porter2 stemmer algorithm from here to process the tokens emitted by the tokenizer. The new summarize any url feature uses BoilerPipe
 
