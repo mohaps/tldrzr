@@ -32,7 +32,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 
 TL;DRzr (Pronounced as _tee-el-dee-rai-zer_) is a simple algorithmic summary generator written in java. It's deployed as a heroku app accessible at http://tldrzr.com and http://tldrzr.herokuapp.com
 
-I wrote this as a weekend hack / fun project. Feel free to use the code as you please. Would love a mention or a line back at mohaps AT gmail DOT com if you find this useful. My twitter is @mohaps and my blog is at http://mohaps.com
+I wrote this as a weekend hack / fun project. Feel free to use the code as you please. Would love a mention or a line back at mohaps AT gmail DOT com if you find this useful. My twitter is [@mohaps](https://twitter.com/mohaps) and my blog is at http://mohaps.com
 
 
 
