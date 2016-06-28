@@ -1,5 +1,5 @@
 # TL;DRzr - A simple algorithmic summarizer
-Website: http://tldrzr.com
+Website: https://tldrzr.herokuapp.com
 Author: Saurav Mohapatra (mohaps@gmail.com)
 
 Copyright (c) 2013, Saurav Mohapatra
