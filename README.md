@@ -44,32 +44,44 @@ Hacker News Post about the source code release : https://news.ycombinator.com/it
 
 ## Prerequisites (for Build)
 
-JDK 1.6+
+JDK 1.8+
 Apache Maven 2.x+
+
+## How it works
+
+`TL;DRzr` uses an algorithm derived from `Classifier4J`. I used the basic algo from Classifier4j, optimized it and added some refinements.
+
+The basic algorithm for summarization is like this. It first tokenizes the text into words and then calculates the top N 
+most frequent words (discarding stop words and single occurence words). It then scans the sentences and gets the first N 
+sentences which feature any or all of the most frequent words. The sentences are sorted based on first occurence in original 
+text and concatenated to create the summary. The user has control over how long the generated summary should be in 
+terms of sentence count.
+
+For implementation details a good starting point is the 
+[Summarizer](https://github.com/mohaps/tldrzr/blob/master/src/main/java/com/mohaps/tldr/summarize/Summarizer.java) class.
+
+`TL;DRzr` is written in Java and uses `Jsoup` for html text scraping, `ROME` for RSS Feed parsing (which depends on JDOM). 
+The parsing of sentences and word tokenization uses `OpenNLP`. 
+
+It uses the `Porter2` stemmer algorithm from here to process the tokens emitted by the tokenizer. 
+
+The `v0.0.1` used `BoilerPipe` for article extraction. `v0.2.0` uses the imporved article extraction from [XTractor](https://github.com/mohaps/xtractor)
 
 ## Running the application locally
 
 First build with:
 
-    $mvn clean install
+    `$mvn clean install`
 
 Then run it with:
 
-    $java -cp target/classes:target/dependency/* com.mohaps.tldr.Main
+    `$java -cp target/classes:target/dependency/* com.mohaps.tldr.Main`
 
-
-## How does it work?
-
-TL;DRzr uses an algorithm derived from Classifier4J. I used the basic algo from Classifier4j, optimized it and added some refinements.
-
-The basic algorithm for summarization is like this. It first tokenizes the text into words and then calculates the top N most frequent words (discarding stop words and single occurence words). It then scans the sentences and gets the first N sentences which feature any or all of the most frequent words. The sentences are sorted based on first occurence in original text and concatenated to create the summary. The user has control over how long the generated summary should be in terms of sentence count.
-
-For implementation details a good starting point is the [Summarizer](https://github.com/mohaps/tldrzr/blob/master/src/main/java/com/mohaps/tldr/summarize/Summarizer.java) class.
-
-TL;DRzr is written in Java and uses Jsoup for html text scraping, ROME for RSS Feed parsing (which depends on JDOM). The parsing of sentences and word tokenization uses OpenNLP. It uses the Porter2 stemmer algorithm from here to process the tokens emitted by the tokenizer. The new summarize any url feature uses BoilerPipe
 
 ## Credits
 
-TL;DRzr is a weekend project/quick hack demo created by Saurav Mohapatra. I wrote this as a fun weekend hack after reading about the Summly acquisition by Yahoo!. I had drunk too many Red Bulls and sleep was not too forthcoming. :) I always wished to try out Heroku and after a couple of hours of googling + coding, I put this together.
+Original version of TL;DRzr was a weekend project/quick hack demo created by [Saurav Mohapatra](https://github.com/mohaps). It was written as a fun weekend 
+hack after reading about the Summly acquisition by Yahoo!. 
 
-The algorithm is a keyword density based one. As this is my current hobby project, I shall work on improving the algorithm. I plan on opensourcing this codebase on github..
+The `v0.2.0` is a redesign and reimplementation of the original version (available in the branch `v0.0.1`)
+
