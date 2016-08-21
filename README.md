@@ -34,7 +34,7 @@ TL;DRzr (Pronounced as _tee-el-dee-rai-zer_) is a simple algorithmic summary gen
 
 I wrote this as a weekend hack / fun project. Feel free to use the code as you please. Would love a mention or a line back at mohaps AT gmail DOT com if you find this useful. My twitter is [@mohaps](https://twitter.com/mohaps) and my blog is at http://mohaps.com
 
-
+I'm currently working on the v2 of this project with better extraction, modularization and updates to use Java 8 features.
 
 Join the Hacker News Discussion About TL;DRzr : https://news.ycombinator.com/item?id=5523538
 
