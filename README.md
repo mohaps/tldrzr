@@ -34,12 +34,13 @@ TL;DRzr (Pronounced as _tee-el-dee-rai-zer_) is a simple algorithmic summary gen
 
 I wrote this as a weekend hack / fun project. Feel free to use the code as you please. Would love a mention or a line back at mohaps AT gmail DOT com if you find this useful. My twitter is [@mohaps](https://twitter.com/mohaps) and my blog is at http://mohaps.com
 
-I'm currently working on the v2 of this project with better extraction, modularization and updates to use Java 8 features.
-
 Join the Hacker News Discussion About TL;DRzr : https://news.ycombinator.com/item?id=5523538
 
 Hacker News Post about the source code release : https://news.ycombinator.com/item?id=5535827
 
+## Version History
+* **v0.0.1** - the first/original version of TLDR;ZR  `git clone git@github.com:mohaps/tldrzr.git -b v0.0.1`
+* **v0.2.0** - the WIP version for v0.2.0 which leverages Java 8 and a modular design with improved extraction, summarization etc. `git clone git@github.com:mohaps/tldrzr.git -b v0.2.0`
 
 ## Prerequisites (for Build)
 
