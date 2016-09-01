@@ -4,4 +4,5 @@
 .springBeans
 target
 .DS_Store
+.config
 
