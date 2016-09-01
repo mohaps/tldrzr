@@ -30,41 +30,63 @@
  *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.tldrzr;
+package com.tldrzr.summarizer;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import com.tldrzr.nlp.Language;
+import com.tldrzr.nlp.Languages;
 
-/**
- * Unit test for simple App.
- */
-public class AppTest 
-    extends TestCase
-{
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-    public AppTest( String testName )
-    {
-        super( testName );
-    }
-
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite()
-    {
-        return new TestSuite( AppTest.class );
-    }
-
-    /**
-     * Rigourous Test :-)
-     */
-    public void testApp()
-    {
-        assertTrue( true );
-    }
+public class Request {
+	private Language language;
+	private int maxLines;
+	private int maxFrequentWords;
+	private boolean ignoreSingleOccurences;
+	
+	public Request(Language language, int maxLines, int maxFrequentWords, boolean ignoreSingleOccurences) {
+		this.language = language;
+		this.maxLines = maxLines;
+		this.maxFrequentWords = maxFrequentWords;
+		this.ignoreSingleOccurences = ignoreSingleOccurences;
+	}
+	public Language getLanguage() {
+		return language;
+	}
+	public void setLanguage(Language language) {
+		this.language = language;
+	}
+	public int getMaxLines() {
+		return maxLines;
+	}
+	public void setMaxLines(int maxLines) {
+		this.maxLines = maxLines;
+	}
+	public int getMaxFrequentWords() {
+		return maxFrequentWords;
+	}
+	public void setMaxFrequentWords(int maxFrequentWords) {
+		this.maxFrequentWords = maxFrequentWords;
+	}
+	public boolean isIgnoreSingleOccurences() {
+		return ignoreSingleOccurences;
+	}
+	public void setIgnoreSingleOccurences(boolean ignoreSingleOccurences) {
+		this.ignoreSingleOccurences = ignoreSingleOccurences;
+	}
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Request [language=").append(language).append(", maxLines=").append(maxLines)
+				.append(", maxFrequentWords=").append(maxFrequentWords).append(", ignoreSingleOccurences=")
+				.append(ignoreSingleOccurences).append("]");
+		return builder.toString();
+	}
+	
+	public static final class Builder {
+		private Language language;
+		private int maxLines;
+		private int maxFrequentWords;
+		private boolean ignoreSingleOccurences;
+		public Builder() {
+			this.language = Languages.getDefault();
+		}
+	}
 }

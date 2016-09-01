@@ -30,41 +30,34 @@
  *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.tldrzr;
+package com.tldrzr.summarizer;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import com.tldrzr.util.Strings;
 
-/**
- * Unit test for simple App.
- */
-public class AppTest 
-    extends TestCase
-{
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-    public AppTest( String testName )
-    {
-        super( testName );
-    }
+public class Response {
+	private String[] lines;
+	private String[] keywords;
+	private long timeTakenMillis;
 
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite()
-    {
-        return new TestSuite( AppTest.class );
-    }
+	public Response(String[] lines, String[] keywords, long timeTakenMillis) {
+		this.lines = lines;
+		this.keywords = keywords;
+		this.timeTakenMillis = timeTakenMillis;
+	}
 
-    /**
-     * Rigourous Test :-)
-     */
-    public void testApp()
-    {
-        assertTrue( true );
-    }
+	public String[] getLines() {
+		return lines;
+	}
+
+	public String[] getKeywords() {
+		return keywords;
+	}
+
+	public long getTimeTakenMillis() {
+		return timeTakenMillis;
+	}
+	
+	public String getSummary() {
+		return Strings.join("", lines);
+	}
 }

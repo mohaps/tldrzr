@@ -30,41 +30,69 @@
  *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.tldrzr;
+package com.tldrzr.nlp;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+public final class Language implements Comparable<Language> {
+	private final String name;
+	private final String description;
 
-/**
- * Unit test for simple App.
- */
-public class AppTest 
-    extends TestCase
-{
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-    public AppTest( String testName )
-    {
-        super( testName );
-    }
+	public static final class Names {
+		public static final String ENGLISH = "en";
 
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite()
-    {
-        return new TestSuite( AppTest.class );
-    }
+		public static final String getDefault() {
+			return ENGLISH;
+		}
+		public static final String getDefaultDescription() {
+			return "English";
+		}
+	}
+	
 
-    /**
-     * Rigourous Test :-)
-     */
-    public void testApp()
-    {
-        assertTrue( true );
-    }
+	public Language(String name) {
+		this(name, name);
+	}
+
+	public Language(String name, String description) {
+		this.name = name;
+		this.description = description;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(name).append(" (").append(description).append(")");
+		return sb.toString();
+	}
+
+	@Override
+	public int hashCode() {
+		return name.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o == null) {
+			return false;
+		}
+		if (o instanceof String) {
+			return name.equals((String) o);
+		}
+		if (o instanceof Language) {
+			return name.equals(((Language) o).getName());
+		}
+		return false;
+	}
+
+	@Override
+	public int compareTo(Language language) {
+		return name.compareTo(language.name);
+	}
 }
