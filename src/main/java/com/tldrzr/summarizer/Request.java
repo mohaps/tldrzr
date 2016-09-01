@@ -87,6 +87,33 @@ public class Request {
 		private boolean ignoreSingleOccurences;
 		public Builder() {
 			this.language = Languages.getDefault();
+			this.maxLines = 5;
+			this.maxFrequentWords = 200;
+			this.ignoreSingleOccurences = true;
+		}
+		
+		public Request build() {
+			return new Request(language, maxLines, maxFrequentWords, ignoreSingleOccurences);
+		}
+
+		public void setLanguage(Language language) {
+			this.language = language;
+		}
+		
+		public void setLanguage(String language) {
+			this.language = Languages.get(language);
+		}
+
+		public void setMaxLines(int maxLines) {
+			this.maxLines = maxLines;
+		}
+
+		public void setMaxFrequentWords(int maxFrequentWords) {
+			this.maxFrequentWords = maxFrequentWords;
+		}
+
+		public void setIgnoreSingleOccurences(boolean ignoreSingleOccurences) {
+			this.ignoreSingleOccurences = ignoreSingleOccurences;
 		}
 	}
 }

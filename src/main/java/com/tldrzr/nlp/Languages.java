@@ -77,16 +77,21 @@ public final class Languages {
 
 	public static void load(InputStream input) throws Exception {
 		languages.clear();
-		Properties props = new Properties();
-		props.load(input);
-		for (Object o : props.keySet()) {
-			String name = (String) o;
-			String description = (String) props.getProperty(name, name);
-			languages.put(name, new Language(name, description));
-		}
+		try {
+			Properties props = new Properties();
 
-		if (languages.containsKey(Language.Names.getDefault())) {
-			languages.put(Language.Names.getDefault(), new Language(Language.Names.getDefault(), Language.Names.getDefaultDescription()));
+			props.load(input);
+			for (Object o : props.keySet()) {
+				String name = (String) o;
+				String description = (String) props.getProperty(name, name);
+				languages.put(name, new Language(name, description));
+			}
+		} finally {
+
+			if (languages.containsKey(Language.Names.getDefault())) {
+				languages.put(Language.Names.getDefault(),
+						new Language(Language.Names.getDefault(), Language.Names.getDefaultDescription()));
+			}
 		}
 	}
 
@@ -94,7 +99,7 @@ public final class Languages {
 		return languages.get(Language.Names.getDefault());
 	}
 
-	public static Language get(String name) throws Exception {
+	public static Language get(String name) {
 		if (!Strings.isValidString(name)) {
 			return get(Language.Names.getDefault());
 		}
@@ -115,7 +120,7 @@ public final class Languages {
 		for (String s : names) {
 			LOG.info(" >>> " + s);
 		}
-		
+
 		Collection<Language> languages = Languages.getAvailableLanguages();
 		LOG.info(">> got " + names.size() + " languages!");
 		for (Language language : languages) {
