@@ -40,37 +40,46 @@ public class Request {
 	private int maxLines;
 	private int maxFrequentWords;
 	private boolean ignoreSingleOccurences;
-	
+
 	public Request(Language language, int maxLines, int maxFrequentWords, boolean ignoreSingleOccurences) {
 		this.language = language;
 		this.maxLines = maxLines;
 		this.maxFrequentWords = maxFrequentWords;
 		this.ignoreSingleOccurences = ignoreSingleOccurences;
 	}
+
 	public Language getLanguage() {
 		return language;
 	}
+
 	public void setLanguage(Language language) {
 		this.language = language;
 	}
+
 	public int getMaxLines() {
 		return maxLines;
 	}
+
 	public void setMaxLines(int maxLines) {
 		this.maxLines = maxLines;
 	}
+
 	public int getMaxFrequentWords() {
 		return maxFrequentWords;
 	}
+
 	public void setMaxFrequentWords(int maxFrequentWords) {
 		this.maxFrequentWords = maxFrequentWords;
 	}
+
 	public boolean isIgnoreSingleOccurences() {
 		return ignoreSingleOccurences;
 	}
+
 	public void setIgnoreSingleOccurences(boolean ignoreSingleOccurences) {
 		this.ignoreSingleOccurences = ignoreSingleOccurences;
 	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -79,19 +88,20 @@ public class Request {
 				.append(ignoreSingleOccurences).append("]");
 		return builder.toString();
 	}
-	
+
 	public static final class Builder {
 		private Language language;
 		private int maxLines;
 		private int maxFrequentWords;
 		private boolean ignoreSingleOccurences;
+
 		public Builder() {
 			this.language = Languages.getDefault();
 			this.maxLines = 5;
 			this.maxFrequentWords = 200;
 			this.ignoreSingleOccurences = true;
 		}
-		
+
 		public Request build() {
 			return new Request(language, maxLines, maxFrequentWords, ignoreSingleOccurences);
 		}
@@ -99,7 +109,7 @@ public class Request {
 		public void setLanguage(Language language) {
 			this.language = language;
 		}
-		
+
 		public void setLanguage(String language) {
 			this.language = Languages.get(language);
 		}

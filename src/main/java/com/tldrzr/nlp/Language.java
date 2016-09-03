@@ -42,11 +42,11 @@ public final class Language implements Comparable<Language> {
 		public static final String getDefault() {
 			return ENGLISH;
 		}
+
 		public static final String getDefaultDescription() {
 			return "English";
 		}
 	}
-	
 
 	public Language(String name) {
 		this(name, name);

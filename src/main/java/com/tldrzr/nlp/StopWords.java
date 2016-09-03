@@ -30,61 +30,61 @@
  *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.tldrzr.util;
+package com.tldrzr.nlp;
 
-public final class Strings {
-	public static final String BLANK = "";
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
-	public static final String join(String delimiter, Iterable<String> strings) {
-		if (strings == null) {
-			return BLANK;
+import com.tldrzr.util.Strings;
+
+public final class StopWords {
+	private static Map<String, StopWords> table = new HashMap<String, StopWords>();
+	private String language;
+	private Set<String> words;
+
+	private StopWords(String language) {
+		this.language = language;
+	}
+
+	public static final StopWords get() throws Exception {
+		return get(Language.Names.getDefault());
+	}
+
+	public static final StopWords get(String language) throws Exception {
+		if (!Strings.isValidString(language)) {
+			return get(Language.Names.getDefault());
 		}
-		StringBuilder sb = new StringBuilder();
-		boolean first = true;
-		boolean useDelimiter = isValidString(delimiter);
-		for (String s : strings) {
-			if (first) {
-				first = false;
-			} else if (useDelimiter) {
-				sb.append(delimiter);
+		StopWords sw = table.get(language);
+		synchronized (table) {
+			sw = table.get(language);
+			if (sw != null) {
+				return sw;
 			}
-			sb.append(s);
+			sw = new StopWords(language);
+			sw.words = Paths.getStopwordsSet(language);
+			table.put(language, sw);
 		}
+		return sw;
+	}
+
+	public boolean isStopWord(String word) {
+		if (!Strings.isValidString(word)) {
+			return true;
+		}
+		return words.contains(word.toLowerCase());
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("(" + language + ") " + words.size() + " stop words");
 		return sb.toString();
 	}
 
-	public static final String join(String delimiter, String... strings) {
-		if (strings == null || strings.length == 0) {
-			return BLANK;
-		}
-		StringBuilder sb = new StringBuilder();
-		boolean first = true;
-		boolean useDelimiter = isValidString(delimiter);
-		for (String s : strings) {
-			if (first) {
-				first = false;
-			} else if (useDelimiter) {
-				sb.append(delimiter);
-			}
-			sb.append(s);
-		}
-		return sb.toString();
+	public static final void main(String[] args) throws Exception {
+		StopWords sw = StopWords.get();
+		System.out.println(sw);
 	}
 
-	public static final boolean isValidString(String s) {
-		return !(s == null || s.isEmpty());
-	}
-
-	
-	public static final String removePunctuation(String s) {
-		if (!isValidString(s)) { return BLANK; }
-		return s.replaceAll("\\p{P}", "");
-	}
-	
-	public static final String normalizeWord(String s) {
-		if (!isValidString(s)) { return BLANK; }
-		String trimmed =  s.trim();
-		if (!isValidString(trimmed)) { return BLANK; }
-		return removePunctuation(trimmed);
-	}
 }

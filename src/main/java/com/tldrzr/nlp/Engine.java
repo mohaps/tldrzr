@@ -30,61 +30,52 @@
  *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.tldrzr.util;
+package com.tldrzr.nlp;
 
-public final class Strings {
-	public static final String BLANK = "";
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-	public static final String join(String delimiter, Iterable<String> strings) {
-		if (strings == null) {
-			return BLANK;
-		}
-		StringBuilder sb = new StringBuilder();
-		boolean first = true;
-		boolean useDelimiter = isValidString(delimiter);
-		for (String s : strings) {
-			if (first) {
-				first = false;
-			} else if (useDelimiter) {
-				sb.append(delimiter);
-			}
-			sb.append(s);
-		}
-		return sb.toString();
+public final class Engine {
+	private static final Logger LOG = LoggerFactory.getLogger(Engine.class);
+	private Language language;
+	private Sentences sentenceTokenizer;
+	private Words wordTokenizer;
+	private StopWords stopWords;
+	public Engine() throws Exception {
+		this(Languages.getDefault());
+	}
+	public Engine(Language language) throws Exception {
+		this.language = language;
+		this.sentenceTokenizer = new Sentences(language.getName());
+		this.wordTokenizer = new Words(language.getName());
+		this.stopWords = StopWords.get(language.getName());
 	}
 
-	public static final String join(String delimiter, String... strings) {
-		if (strings == null || strings.length == 0) {
-			return BLANK;
-		}
-		StringBuilder sb = new StringBuilder();
-		boolean first = true;
-		boolean useDelimiter = isValidString(delimiter);
-		for (String s : strings) {
-			if (first) {
-				first = false;
-			} else if (useDelimiter) {
-				sb.append(delimiter);
-			}
-			sb.append(s);
-		}
-		return sb.toString();
+	public Language getLanguage() {
+		return this.language;
 	}
 
-	public static final boolean isValidString(String s) {
-		return !(s == null || s.isEmpty());
+	public Sentences getSentenceTokenizer() {
+		return this.sentenceTokenizer;
 	}
 
-	
-	public static final String removePunctuation(String s) {
-		if (!isValidString(s)) { return BLANK; }
-		return s.replaceAll("\\p{P}", "");
+	public Words getWordTokenizer() {
+		return this.wordTokenizer;
+	}
+
+	public StopWords getStopWords() {
+		return this.stopWords;
 	}
 	
-	public static final String normalizeWord(String s) {
-		if (!isValidString(s)) { return BLANK; }
-		String trimmed =  s.trim();
-		if (!isValidString(trimmed)) { return BLANK; }
-		return removePunctuation(trimmed);
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("NLP Engine for "+language);
+		return sb.toString();
+	}
+	
+	public static void main(String[] args) throws Exception {
+		Engine engine = new Engine();
+		LOG.info("created "+engine);
 	}
 }
