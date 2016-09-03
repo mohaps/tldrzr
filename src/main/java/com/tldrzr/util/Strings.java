@@ -75,16 +75,25 @@ public final class Strings {
 		return !(s == null || s.isEmpty());
 	}
 
-	
 	public static final String removePunctuation(String s) {
-		if (!isValidString(s)) { return BLANK; }
+		if (!isValidString(s)) {
+			return BLANK;
+		}
 		return s.replaceAll("\\p{P}", "");
 	}
-	
+
+	public static final String normalizeInput(String s) {
+		return s.trim().toLowerCase();
+	}
+
 	public static final String normalizeWord(String s) {
-		if (!isValidString(s)) { return BLANK; }
-		String trimmed =  s.trim();
-		if (!isValidString(trimmed)) { return BLANK; }
+		if (!isValidString(s)) {
+			return BLANK;
+		}
+		String trimmed = s.trim();
+		if (!isValidString(trimmed)) {
+			return BLANK;
+		}
 		return removePunctuation(trimmed);
 	}
 }

@@ -35,20 +35,45 @@ package com.tldrzr.nlp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.tldrzr.util.Strings;
+
+import opennlp.tools.stemmer.Stemmer;
+import opennlp.tools.stemmer.snowball.SnowballStemmer;
+
 public final class Engine {
 	private static final Logger LOG = LoggerFactory.getLogger(Engine.class);
 	private Language language;
 	private Sentences sentenceTokenizer;
 	private Words wordTokenizer;
 	private StopWords stopWords;
+
+	public static final SnowballStemmer.ALGORITHM getStemmerAlgoritm(String language) {
+		if (!Strings.isValidString(language)) {
+			return getStemmerAlgoritm(Language.Names.getDefault());
+		}
+
+		if (language.equalsIgnoreCase(Language.Names.ENGLISH)) {
+			return SnowballStemmer.ALGORITHM.ENGLISH;
+		}
+
+		// TODO: add bindings for other languages
+		return SnowballStemmer.ALGORITHM.ENGLISH;
+
+	}
+
 	public Engine() throws Exception {
 		this(Languages.getDefault());
 	}
+
 	public Engine(Language language) throws Exception {
 		this.language = language;
 		this.sentenceTokenizer = new Sentences(language.getName());
 		this.wordTokenizer = new Words(language.getName());
 		this.stopWords = StopWords.get(language.getName());
+	}
+
+	public Stemmer newStemmer() {
+		return new SnowballStemmer(getStemmerAlgoritm(language.getName()));
 	}
 
 	public Language getLanguage() {
@@ -70,12 +95,30 @@ public final class Engine {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("NLP Engine for "+language);
+		sb.append("NLP Engine for " + language);
 		return sb.toString();
 	}
-	
+
 	public static void main(String[] args) throws Exception {
 		Engine engine = new Engine();
-		LOG.info("created "+engine);
+		LOG.info("created " + engine);
+		String inputText = "John F. Kennedy (better known as JFK) was president of the U.S.A., who lost 59lbs by jogging on Main st. and Side blvd. He is known for his book \"Profiles in Courage\", which detailed his time commanding a P.T. Boat during WWII";
+		String normalizedText = Strings.normalizeInput(inputText);
+		LOG.info(normalizedText);
+		String[] sentences = engine.getSentenceTokenizer().tokenize(normalizedText);
+		LOG.info(" -> pass 1 : found "+sentences.length+" sentences");
+		int sentenceIndex = 0;
+		Stemmer stemmer = engine.newStemmer();
+		for (String sentence : sentences) {
+			LOG.info(" Sentence #"+ (++sentenceIndex)+" => "+sentence);
+			String[] words = engine.getWordTokenizer().tokenize(sentence);
+			LOG.info("    Found "+words.length+" words!");
+			int wordIndex = 0;
+			for (String word : words) {
+				String normalizedWord = Strings.normalizeWord(word);
+				String stemmedWord = stemmer.stem(normalizedWord).toString();
+				LOG.info("    Word #"+(++wordIndex)+" => "+ word +" -> "+normalizedWord +" -> "+stemmedWord);
+			}
+		}
 	}
 }
