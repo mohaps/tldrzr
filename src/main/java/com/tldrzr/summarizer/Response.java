@@ -33,9 +33,7 @@
 package com.tldrzr.summarizer;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,21 +43,15 @@ import com.tldrzr.util.Strings;
 public class Response {
 	private static final Logger LOG = LoggerFactory.getLogger(Response.class);
 	private String[] lines;
-	private String[] keywords;
 	private long timeTakenMillis;
 
-	public Response(String[] lines, String[] keywords, long timeTakenMillis) {
+	public Response(String[] lines, long timeTakenMillis) {
 		this.lines = lines;
-		this.keywords = keywords;
 		this.timeTakenMillis = timeTakenMillis;
 	}
 
 	public String[] getLines() {
 		return lines;
-	}
-
-	public String[] getKeywords() {
-		return keywords;
 	}
 
 	public long getTimeTakenMillis() {
@@ -73,15 +65,13 @@ public class Response {
 	@Override
 	public String toString() {
 		StringBuilder builder2 = new StringBuilder();
-		builder2.append("Response [\n lines=").append(Strings.join(" ", lines)).append(",\n keywords=")
-				.append(Strings.join(", ", keywords)).append(",\n timeTakenMillis=").append(timeTakenMillis)
+		builder2.append("Response [\n lines=").append(Strings.join(" ", lines)).append(",\n timeTakenMillis=").append(timeTakenMillis)
 				.append("\n]");
 		return builder2.toString();
 	}
 
 	public static final class Builder {
 		private List<String> lines = new ArrayList<String>();
-		private Set<String> keywords = new HashSet<String>();
 		private long timeTakenMillis = 0;
 
 		public Builder() {
@@ -89,8 +79,7 @@ public class Response {
 
 		public Response build() {
 			String[] lines = new String[this.lines.size()];
-			String[] words = new String[this.keywords.size()];
-			return new Response(this.lines.toArray(lines), this.keywords.toArray(words), timeTakenMillis);
+			return new Response(this.lines.toArray(lines), timeTakenMillis);
 		}
 
 		public Builder addLine(String s) {
@@ -99,10 +88,11 @@ public class Response {
 			}
 			return this;
 		}
-
-		public Builder addKeyword(String w) {
-			if (Strings.isValidString(w)) {
-				keywords.add(w);
+		
+		public Builder addLines(String... strings) {
+			if (strings == null) { return this; }
+			for (String s : strings) {
+				addLine(s);
 			}
 			return this;
 		}
@@ -116,7 +106,6 @@ public class Response {
 	public static void main(String[] args) {
 		Response.Builder builder = new Response.Builder();
 		builder.addLine("First line.").addLine("Second line.");
-		builder.addKeyword("foo").addKeyword("bar").addKeyword("boom");
 		builder.setTimeTakenMillis(100);
 		LOG.info("Built : " + builder.build());
 	}

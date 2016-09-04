@@ -83,6 +83,9 @@ public final class Strings {
 	}
 
 	public static final String normalizeInput(String s) {
+		if (!isValidString(s)) {
+			return BLANK;
+		}
 		return s.trim().toLowerCase();
 	}
 
@@ -94,6 +97,6 @@ public final class Strings {
 		if (!isValidString(trimmed)) {
 			return BLANK;
 		}
-		return removePunctuation(trimmed);
+		return removePunctuation(trimmed.toLowerCase());
 	}
 }

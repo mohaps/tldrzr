@@ -32,8 +32,9 @@
  */
 package com.tldrzr.nlp;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.TreeSet;
 
 import com.tldrzr.util.Strings;
 
@@ -41,7 +42,6 @@ import opennlp.tools.stemmer.Stemmer;
 import opennlp.tools.stemmer.snowball.SnowballStemmer;
 
 public final class Engine {
-	private static final Logger LOG = LoggerFactory.getLogger(Engine.class);
 	private Language language;
 	private Sentences sentenceTokenizer;
 	private Words wordTokenizer;
@@ -92,33 +92,89 @@ public final class Engine {
 		return this.stopWords;
 	}
 	
+	public String[] summarize(String input, int sentenceCount, boolean ignoreSingleOccurence) throws Exception {
+
+		String[] sentences = sentenceTokenizer.tokenize(input);
+		// first pass
+		WordFrequency frequentWords = new WordFrequency();
+		Stemmer stemmer = newStemmer();
+		for (String s : sentences) {
+			String[] words = wordTokenizer.tokenize(s);
+			for (String w : words) {
+				String normalized = Strings.normalizeWord(w);
+				CharSequence cs = stemmer.stem(normalized);
+				if (cs == null) {
+					continue;
+				}
+				String stemmed = cs.toString();
+				if (stemmed.length() <= 2) {
+					continue;
+				}
+				if (stopWords.isStopWord(stemmed)) {
+					continue;
+				}
+				frequentWords.add(stemmed);
+			}
+		}
+		
+		Set<Sentence> significantSentences = new TreeSet<Sentence>(new Sentence.ScoreComparator());
+		int sIndex = 0;
+		for (String s : sentences) {
+			String[] words = wordTokenizer.tokenize(s);
+			Sentence curSentence = new Sentence(s, sIndex++);
+			for (String w : words) {
+				String normalized = Strings.normalizeWord(w);
+				CharSequence cs = stemmer.stem(normalized);
+				if (cs == null) {
+					continue;
+				}
+				String stemmed = cs.toString();
+				if (stemmed.length() <= 2) {
+					continue;
+				}
+				if (stopWords.isStopWord(stemmed)) {
+					continue;
+				}
+				
+				WordFrequency.Entry entry = frequentWords.get(stemmed);
+				if (entry == null) {
+					continue;
+				}
+				if (ignoreSingleOccurence && entry.getCount() == 1) {
+					continue;
+				}
+				curSentence.incrementScore(1);
+			}
+			if (curSentence.getScore() > 0) {
+				significantSentences.add(curSentence);
+			}
+		}
+		
+		// third pass
+		int limit = Math.min(sentenceCount, significantSentences.size());
+		Set<Sentence> summary = new TreeSet<Sentence>(new Sentence.IndexComparator());
+		Iterator<Sentence> iter = significantSentences.iterator();
+		int count = 0;
+		while (count < limit && iter.hasNext()) {
+			summary.add(iter.next());
+			count++;
+		}
+		
+		// fourth pass
+		String[] ret = new String[summary.size()];
+		iter = summary.iterator();
+		count = 0;
+		while (iter.hasNext()) {
+			ret[count++] = iter.next().getText();
+		}
+		return ret;
+		
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("NLP Engine for " + language);
 		return sb.toString();
-	}
-
-	public static void main(String[] args) throws Exception {
-		Engine engine = new Engine();
-		LOG.info("created " + engine);
-		String inputText = "John F. Kennedy (better known as JFK) was president of the U.S.A., who lost 59lbs by jogging on Main st. and Side blvd. He is known for his book \"Profiles in Courage\", which detailed his time commanding a P.T. Boat during WWII";
-		String normalizedText = Strings.normalizeInput(inputText);
-		LOG.info(normalizedText);
-		String[] sentences = engine.getSentenceTokenizer().tokenize(normalizedText);
-		LOG.info(" -> pass 1 : found "+sentences.length+" sentences");
-		int sentenceIndex = 0;
-		Stemmer stemmer = engine.newStemmer();
-		for (String sentence : sentences) {
-			LOG.info(" Sentence #"+ (++sentenceIndex)+" => "+sentence);
-			String[] words = engine.getWordTokenizer().tokenize(sentence);
-			LOG.info("    Found "+words.length+" words!");
-			int wordIndex = 0;
-			for (String word : words) {
-				String normalizedWord = Strings.normalizeWord(word);
-				String stemmedWord = stemmer.stem(normalizedWord).toString();
-				LOG.info("    Word #"+(++wordIndex)+" => "+ word +" -> "+normalizedWord +" -> "+stemmedWord);
-			}
-		}
 	}
 }

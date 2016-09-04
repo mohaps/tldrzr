@@ -36,18 +36,21 @@ import com.tldrzr.nlp.Language;
 import com.tldrzr.nlp.Languages;
 
 public class Request {
+	private String text;
 	private Language language;
 	private int maxLines;
-	private int maxFrequentWords;
 	private boolean ignoreSingleOccurences;
 
-	public Request(Language language, int maxLines, int maxFrequentWords, boolean ignoreSingleOccurences) {
+	public Request(String text, Language language, int maxLines, boolean ignoreSingleOccurences) {
 		this.language = language;
 		this.maxLines = maxLines;
-		this.maxFrequentWords = maxFrequentWords;
 		this.ignoreSingleOccurences = ignoreSingleOccurences;
+		this.text = text;
 	}
-
+	public String getText() {
+		return text;
+	}
+	
 	public Language getLanguage() {
 		return language;
 	}
@@ -64,14 +67,6 @@ public class Request {
 		this.maxLines = maxLines;
 	}
 
-	public int getMaxFrequentWords() {
-		return maxFrequentWords;
-	}
-
-	public void setMaxFrequentWords(int maxFrequentWords) {
-		this.maxFrequentWords = maxFrequentWords;
-	}
-
 	public boolean isIgnoreSingleOccurences() {
 		return ignoreSingleOccurences;
 	}
@@ -84,7 +79,7 @@ public class Request {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Request [language=").append(language).append(", maxLines=").append(maxLines)
-				.append(", maxFrequentWords=").append(maxFrequentWords).append(", ignoreSingleOccurences=")
+				.append(", ignoreSingleOccurences=")
 				.append(ignoreSingleOccurences).append("]");
 		return builder.toString();
 	}
@@ -92,18 +87,16 @@ public class Request {
 	public static final class Builder {
 		private Language language;
 		private int maxLines;
-		private int maxFrequentWords;
 		private boolean ignoreSingleOccurences;
 
 		public Builder() {
 			this.language = Languages.getDefault();
 			this.maxLines = 5;
-			this.maxFrequentWords = 200;
 			this.ignoreSingleOccurences = true;
 		}
 
-		public Request build() {
-			return new Request(language, maxLines, maxFrequentWords, ignoreSingleOccurences);
+		public Request build(String text) {
+			return new Request(text, language, maxLines, ignoreSingleOccurences);
 		}
 
 		public void setLanguage(Language language) {
@@ -116,10 +109,6 @@ public class Request {
 
 		public void setMaxLines(int maxLines) {
 			this.maxLines = maxLines;
-		}
-
-		public void setMaxFrequentWords(int maxFrequentWords) {
-			this.maxFrequentWords = maxFrequentWords;
 		}
 
 		public void setIgnoreSingleOccurences(boolean ignoreSingleOccurences) {

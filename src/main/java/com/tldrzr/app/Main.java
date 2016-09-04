@@ -35,9 +35,27 @@ package com.tldrzr.app;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.tldrzr.content.ArticleExtractor;
+import com.tldrzr.summarizer.DefaultSummarizer;
+import com.tldrzr.summarizer.Request;
+import com.tldrzr.summarizer.Response;
+import com.tldrzr.summarizer.Summarizer;
+import com.tldrzr.util.Strings;
+
 public class Main {
 	private static final Logger LOG = LoggerFactory.getLogger(Main.class);
 	public static void main(String[] args) throws Exception {
-		LOG.info(">> starting TL;DRzr app ...");
+		String url = "https://techcrunch.com/2016/09/03/were-at-peak-complexity-and-it-sucks/";
+		String text = ArticleExtractor.extractText(url);
+		System.out.println(">>> Article Text : "+text.length()+" bytes!");
+		Summarizer summarizer = new DefaultSummarizer();
+		Request.Builder builder = new Request.Builder();
+		builder.setMaxLines(5);
+		Request req = builder.build(text);
+		
+		Response resp = summarizer.summarize(req);
+		LOG.info(">> Summary ( in "+resp.getTimeTakenMillis()+" ms)");
+		LOG.info(Strings.join("\n", resp.getLines()));
 	}
+	
 }

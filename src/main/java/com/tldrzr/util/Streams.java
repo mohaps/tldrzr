@@ -33,14 +33,18 @@
 package com.tldrzr.util;
 
 import java.io.BufferedReader;
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.HashSet;
+import java.util.Scanner;
 import java.util.Set;
 
 public final class Streams {
-	public static final void close(InputStream in) {
+	public static final void close(Closeable in) {
 		try {
 			if (in != null) {
 				in.close();
@@ -74,5 +78,17 @@ public final class Streams {
 			}
 		}
 		return ret;
+	}
+
+	public static String fetchURL(String urlString) throws Exception {
+		Scanner scanner = null;
+		try {
+			URLConnection connection = new URL(urlString).openConnection();
+			scanner = new Scanner(connection.getInputStream());
+			scanner.useDelimiter("\\Z");
+			return scanner.next();
+		} finally {
+			close(scanner);
+		}
 	}
 }
