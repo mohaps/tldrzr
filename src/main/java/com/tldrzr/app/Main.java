@@ -45,17 +45,22 @@ import com.tldrzr.util.Strings;
 public class Main {
 	private static final Logger LOG = LoggerFactory.getLogger(Main.class);
 	public static void main(String[] args) throws Exception {
-		String url = "https://techcrunch.com/2016/09/03/were-at-peak-complexity-and-it-sucks/";
+		String url = "http://www.cnn.com/2016/09/03/asia/australia-doughnut-reef-discovered/";
+		if (args.length > 0) {
+			url = args[0];
+		}
+		LOG.info(">> fetching article from : "+url);
 		String text = ArticleExtractor.extractText(url);
 		System.out.println(">>> Article Text : "+text.length()+" bytes!");
 		Summarizer summarizer = new DefaultSummarizer();
 		Request.Builder builder = new Request.Builder();
-		builder.setMaxLines(5);
+		builder.setIgnoreSingleOccurences(true);
+		builder.setMaxLines(10);
 		Request req = builder.build(text);
 		
 		Response resp = summarizer.summarize(req);
-		LOG.info(">> Summary ( in "+resp.getTimeTakenMillis()+" ms)");
-		LOG.info(Strings.join("\n", resp.getLines()));
+		LOG.info(">> Summary (upto "+req.getMaxLines()+" lines in "+resp.getTimeTakenMillis()+" ms)");
+		LOG.info("\n -> " + Strings.join("\n -> ", resp.getLines()));
 	}
 	
 }

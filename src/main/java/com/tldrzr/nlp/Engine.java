@@ -95,6 +95,9 @@ public final class Engine {
 	public String[] summarize(String input, int sentenceCount, boolean ignoreSingleOccurence) throws Exception {
 
 		String[] sentences = sentenceTokenizer.tokenize(input);
+		if (sentences.length <= sentenceCount) {
+			return sentences;
+		}
 		// first pass
 		WordFrequency frequentWords = new WordFrequency();
 		Stemmer stemmer = newStemmer();

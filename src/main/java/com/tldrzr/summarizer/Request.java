@@ -91,7 +91,7 @@ public class Request {
 
 		public Builder() {
 			this.language = Languages.getDefault();
-			this.maxLines = 5;
+			this.maxLines = 8;
 			this.ignoreSingleOccurences = true;
 		}
 
