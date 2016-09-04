@@ -99,20 +99,24 @@ public class Request {
 			return new Request(text, language, maxLines, ignoreSingleOccurences);
 		}
 
-		public void setLanguage(Language language) {
+		public Builder setLanguage(Language language) {
 			this.language = language;
+			return this;
 		}
 
-		public void setLanguage(String language) {
+		public Builder setLanguage(String language) {
 			this.language = Languages.get(language);
+			return this;
 		}
 
-		public void setMaxLines(int maxLines) {
+		public Builder setMaxLines(int maxLines) {
 			this.maxLines = maxLines;
+			return this;
 		}
 
-		public void setIgnoreSingleOccurences(boolean ignoreSingleOccurences) {
+		public Builder setIgnoreSingleOccurences(boolean ignoreSingleOccurences) {
 			this.ignoreSingleOccurences = ignoreSingleOccurences;
+			return this;
 		}
 	}
 }

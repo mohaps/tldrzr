@@ -35,15 +35,42 @@ package com.tldrzr.content;
 import com.gravity.goose.Article;
 import com.gravity.goose.Configuration;
 import com.gravity.goose.Goose;
-import com.tldrzr.util.Streams;
+import com.tldrzr.util.Web;
 
+/**
+ * A Goose based article extractor
+ * 
+ * @author mohaps
+ *
+ */
 public class ArticleExtractor {
+	private static String IMAGE_MAGICK_PATH;
+	static {
+	try {
+		IMAGE_MAGICK_PATH = System.getProperty("tldrzr.imagemagick.path");
+	} catch (Exception ex) {
+	} finally {
+		if (IMAGE_MAGICK_PATH == null) {
+			IMAGE_MAGICK_PATH = "/usr/local/bin";
+		}
+	}
+	}
+
 	public static final String extractText(String urlString) throws Exception {
-		String html = Streams.fetchURL(urlString);
+		return extractArticleFromURL(urlString, false).getText();
+	}
+
+	public static final ArticleData extractArticleFromURL(String url, boolean fetchImages) throws Exception {
+		String rawHTML = Web.fetchHTML(url);
 		Configuration config = new Configuration();
-		config.setEnableImageFetching(false);
+		config.setEnableImageFetching(fetchImages);
+		if (fetchImages) {
+			config.setImagemagickConvertPath(IMAGE_MAGICK_PATH + "/convert");
+			config.setImagemagickIdentifyPath(IMAGE_MAGICK_PATH + "/identify");
+		}
 		Goose goose = new Goose(config);
-		Article article = goose.extractContent(urlString, html);
-		return article.cleanedArticleText();
+		Article article = goose.extractContent(url, rawHTML);
+		return new ArticleData(article.title(), article.topImage().imageSrc(), article.canonicalLink(),
+				article.cleanedArticleText());
 	}
 }

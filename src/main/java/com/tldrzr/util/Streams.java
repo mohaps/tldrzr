@@ -79,16 +79,4 @@ public final class Streams {
 		}
 		return ret;
 	}
-
-	public static String fetchURL(String urlString) throws Exception {
-		Scanner scanner = null;
-		try {
-			URLConnection connection = new URL(urlString).openConnection();
-			scanner = new Scanner(connection.getInputStream());
-			scanner.useDelimiter("\\Z");
-			return scanner.next();
-		} finally {
-			close(scanner);
-		}
-	}
 }

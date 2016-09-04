@@ -35,6 +35,7 @@ package com.tldrzr.app;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.tldrzr.content.ArticleData;
 import com.tldrzr.content.ArticleExtractor;
 import com.tldrzr.summarizer.DefaultSummarizer;
 import com.tldrzr.summarizer.Request;
@@ -42,25 +43,46 @@ import com.tldrzr.summarizer.Response;
 import com.tldrzr.summarizer.Summarizer;
 import com.tldrzr.util.Strings;
 
+import joptsimple.OptionParser;
+import joptsimple.OptionSet;
+
 public class Main {
 	private static final Logger LOG = LoggerFactory.getLogger(Main.class);
+	private static OptionParser OPT = new OptionParser();
+	static {
+		OPT.accepts("url").withRequiredArg().describedAs("url to fetch content from")
+			.defaultsTo("http://www.thehindu.com/todays-paper/the-pigeon-paradox-feeding-them-could-be-bad-for-your-lungs/article9070973.ece");
+			//.defaultsTo("http://www.thehindu.com/news/international/india-china-diagnose-insensitivity-to-core-interests-as-chief-obstacle-in/article9072372.ece");	
+			//.defaultsTo("http://www.cnn.com/2016/09/03/asia/australia-doughnut-reef-discovered/");
+		OPT.accepts("language").withRequiredArg().defaultsTo("en").describedAs("language hint");
+		OPT.accepts("help", "show help").forHelp();
+	}
+
 	public static void main(String[] args) throws Exception {
-		String url = "http://www.cnn.com/2016/09/03/asia/australia-doughnut-reef-discovered/";
-		if (args.length > 0) {
-			url = args[0];
+		OptionSet options = OPT.parse(args);
+		if (options.has("help")) {
+			OPT.printHelpOn(System.out);
+			return;
 		}
-		LOG.info(">> fetching article from : "+url);
-		String text = ArticleExtractor.extractText(url);
-		System.out.println(">>> Article Text : "+text.length()+" bytes!");
+		String url = options.valueOf("url").toString();
+		String language = options.valueOf("language").toString();
+		LOG.info(">> fetching article from : " + url);
+		long startTime = System.currentTimeMillis();
+		ArticleData aData = ArticleExtractor.extractArticleFromURL(url, true);
+		String text = aData.getText();
+		LOG.info("TITLE: "+aData.getTitle());
+		LOG.info("LINK: "+aData.getUrl());
+		LOG.info("IMG : "+aData.getImage());
+		LOG.info(">>> Article Text : " + text.length() + " bytes in " + (System.currentTimeMillis() - startTime)
+				+ " ms!");
 		Summarizer summarizer = new DefaultSummarizer();
 		Request.Builder builder = new Request.Builder();
-		builder.setIgnoreSingleOccurences(true);
-		builder.setMaxLines(10);
+		builder.setIgnoreSingleOccurences(false).setMaxLines(5).setLanguage(language);
 		Request req = builder.build(text);
-		
+
 		Response resp = summarizer.summarize(req);
-		LOG.info(">> Summary (upto "+req.getMaxLines()+" lines in "+resp.getTimeTakenMillis()+" ms)");
+		LOG.info(">> Summary (upto " + req.getMaxLines() + " lines in " + resp.getTimeTakenMillis() + " ms)");
 		LOG.info("\n -> " + Strings.join("\n -> ", resp.getLines()));
 	}
-	
+
 }
