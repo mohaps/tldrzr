@@ -1,11 +1,13 @@
-This is a refactor in progress of the tldrzr codebase
+**This is a refactor in progress of the tldrzr codebase**
 
 Features planned:
 
-a) OpenNLP sentence tokenizer and tokenizer
-b) Multi-language support
-c) Language detection
-d) Better Article Extraction using jsoup
-e) RSS/Atom support
+a) OpenNLP sentence tokenizer and tokenizer (DONE)
+b) Multi-language support (WIP)
+c) Language detection 
+d) Better Article Extraction using jsoup/goose (DONE)
+e) RSS/Atom support (WIP)
 f) precreated site templates for extracting from news sources
-
+e) Java Spark based server for API and Demo app
+f) React.js based Demo app
+p
